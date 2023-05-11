@@ -8,6 +8,8 @@ public class UI : MonoBehaviour
 {
     public static UI Instance { get; set; }
 
+    [SerializeField] private EndLevelUI End;
+
     void Awake()
     {
         Instance = this;
@@ -30,15 +32,11 @@ public class UI : MonoBehaviour
     public void NextLevel()
     {
         LevelManager.Instance.NextLevel();
+        End.Close();
     }
 
     public void EndLevel()
     {
-
-    }
-
-    public void LoseLevel()
-    {
-
+        End.Open();
     }
 }

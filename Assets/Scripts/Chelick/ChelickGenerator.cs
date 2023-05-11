@@ -55,6 +55,17 @@ public class ChelickGenerator : MonoBehaviour
         }
     } */
 
+    public void DeleteAll()
+    {
+        int count = List.Count;
+        for(int i = 0; i < count; i++)
+        {
+            ObjectPool.Instance.Add(ObjectType.Chelick, List[0].gameObject);
+            List[0].Off();
+        }
+    }
+
+
     public void Spawn(Vector3 pos, Chelick chelick = null, Vector3 target = new Vector3())
     {
         if(chelick != null)

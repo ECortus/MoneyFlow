@@ -68,7 +68,15 @@ public class ChelickFlow : MonoBehaviour
         int value = Progress + 1;
         Progress = value;
 
+        Money.Minus(CostOfProgress);
+
         Bank.Instance.UpdateAmountPerSecond();
+        Reset();
+    }
+
+    public void ResetToDefault()
+    {
+        Progress = 0;
         Reset();
     }
 

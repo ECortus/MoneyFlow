@@ -48,13 +48,13 @@ public class Road : MonoBehaviour
         defaultScale = transform.localScale;
         defaultPos = transform.position;
         defaultCanvasPos = canvas.position;
-        defaultFlowPos = spawner.position;
-        defaultFlowScale = spawner.localScale;
+        defaultFlowPos = flow.position;
+        defaultSpawnerScale = spawner.localScale;
 
         ResetRoad(Size);
     }
 
-    private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos, defaultFlowScale;
+    private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos, defaultSpawnerScale;
 
     public Vector3 RandomDirection
     {
@@ -97,7 +97,15 @@ public class Road : MonoBehaviour
         int value = Size + 1;
         Size = value;
 
+        Money.Minus(CostOfProgress);
+
         ResetRoad(value);
+    }
+
+    public void ResetToDefault()
+    {
+        Size = 0;
+        ResetRoad(Size);
     }
 
     public void ResetRoad(int lvl)
@@ -126,7 +134,7 @@ public class Road : MonoBehaviour
             plusScaleSize / 2f * lvl
         );
 
-        spawner.localScale = defaultFlowScale + new Vector3(
+        spawner.localScale = defaultSpawnerScale + new Vector3(
             0f,
             0f,
             plusScaleSize * lvl

@@ -36,7 +36,7 @@ public class ConstructionData : MonoBehaviour
     public int progressStep;
 
     [Header("Objects: ")]
-    [SerializeField] private List<Animation> Tiers;
+    public List<Animation> Tiers;
     [SerializeField] private GameObject defaultObj, buyedObj;
 
     [Header("Info: ")]
@@ -79,6 +79,16 @@ public class ConstructionData : MonoBehaviour
         buyedObj.SetActive(true);
 
         buyed = true;
+    }
+
+    public void Sell()
+    {
+        if(!buyed) return;
+
+        defaultObj.SetActive(true);
+        buyedObj.SetActive(false);
+
+        buyed = false;
     }
 
     public void ChangeAppearance()

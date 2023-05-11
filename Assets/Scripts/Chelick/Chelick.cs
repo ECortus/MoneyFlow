@@ -49,6 +49,12 @@ public class Chelick : MonoBehaviour
 
     void Update()
     {
+        if(!GameManager.Instance.isActive)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         if(target != null)
         {
             if(Vector3.Distance(target, transform.position) < 0.5f)

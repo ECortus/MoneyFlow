@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShowHideUI : MonoBehaviour
 {
-    private float showSpeed = 4f;
+    public float showSpeed = 5f;
     [HideInInspector] public bool isShown;
 
     void Start()

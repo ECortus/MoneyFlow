@@ -21,10 +21,9 @@ public class UpgradeButtonUI : MonoBehaviour
     [Space]
     [SerializeField] private TextMeshProUGUI progressText;
     
-
-    void Start()
+    void OnEnable()
     {
-        if(Progress == MaxProgress) Off();
+        /* if(Progress == MaxProgress) Off(); */
     }
 
     void Update()

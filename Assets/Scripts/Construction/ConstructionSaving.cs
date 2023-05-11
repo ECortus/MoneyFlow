@@ -48,11 +48,11 @@ public static class ConstructionSaving
         }
     }
 
-    public static void ResetConstructions()
+    public static void ResetToDefaultConstructions()
     {
         for(int i = 0; i < List.Count; i++)
         {
-            PlayerPrefs.SetInt($"{baseName}{i}", 0);
+            /* PlayerPrefs.SetInt($"{baseName}{i}", 0); */
             List[i].Progress = 0;
             List[i].Reset();
         }

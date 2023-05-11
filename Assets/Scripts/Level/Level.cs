@@ -14,7 +14,7 @@ public class Level : MonoBehaviour
     public int defaultChelickCount = 1;
 
     /* [Header("Construction par-s: ")] */
-    [HideInInspector] public List<Construction> Constructions = new List<Construction>();
+    public List<Construction> Constructions = new List<Construction>();
 
     [Header("Camera par-s: ")]
     public float leftBound;
@@ -35,6 +35,35 @@ public class Level : MonoBehaviour
 
     public void EndLevel()
     {
+        UI.Instance.EndLevel();
 
+        Bank.Instance.StopIncome();
+        GameManager.Instance.SetActive(false);
+    }
+
+    [ContextMenu("Default")]
+    public void ResetToDefaultLevel()
+    {
+        ChelickGenerator.Instance.DeleteAll();
+
+        ConstructionSaving.ResetToDefaultConstructions();
+        Road.Instance.ResetToDefault();
+        ChelickFlow.Instance.ResetToDefault();
+
+        Money.Minus(Statistics.Money);
+        MoneyUI.Instance.ResetMoney();
+    }
+
+    public bool TaskConditionComplete
+    {
+        get
+        {
+            foreach(Construction construction in Constructions)
+            {
+                if(construction.MaxProgress != construction.Progress) return false;
+            }
+
+            return true;
+        }
     }
 } 

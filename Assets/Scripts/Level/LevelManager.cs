@@ -11,7 +11,11 @@ public class LevelManager : MonoBehaviour
 
     private int _Index { get { return Statistics.LevelIndex; } set { Statistics.LevelIndex = value; } }
     public int GetIndex() => _Index > (Levels.Count - 1) ? _Index % Levels.Count : _Index;
-    public void SetIndex(int value) => _Index = value;
+    public void SetIndex(int value)
+    {
+        if(value < 0) _Index = 0;
+        else _Index = value;
+    }
 
     public Level ActualLevel => Levels[GetIndex()];
 
@@ -37,6 +41,10 @@ public class LevelManager : MonoBehaviour
 
     public void EndLevel()
     {
+        int index = _Index;
+        index += 1;
+        SetIndex(index);
+
         ActualLevel.EndLevel();
     }
 
@@ -49,21 +57,26 @@ public class LevelManager : MonoBehaviour
 
     public void NextLevel()
     {
+        int index = _Index;
+        index -= 1;
+        SetIndex(index);
+
         OffLevel(ActualLevel);
 
-        GameObject levelPref = GetBufferLevel(); 
+        /* GameObject levelPref = GetBufferLevel(); 
         GameObject go = Instantiate(levelPref, transform);
         Level level = go.GetComponent<Level>();
 
         Levels[GetIndex()] = level;
 
-        OffLevel(level);
+        OffLevel(level); */
 
-        int index = _Index;
+        index = _Index;
         index += 1;
         SetIndex(index);
 
         LoadLevel();
+        ActualLevel.ResetToDefaultLevel();
 
         StartLevel();
     }

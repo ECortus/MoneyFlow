@@ -14,14 +14,21 @@ public class Construction : ConstructionData
     [Header("UI par-s:")]
     [SerializeField] private ConstructionUpgradeButtonUI button;
 
-    async void OnEnable()
+    public void SetData()
     {
-        await UniTask.WaitUntil(() => Bank.Instance);
+        /* await UniTask.WaitUntil(() => Bank.Instance); */
 
         Bank.Instance.AddConstruction(this);
         construction = this;
 
         ActivateMoneyAnim();
+
+        button.enabled = true;
+
+        foreach(Animation anim in Tiers)
+        {
+            anim.transform.localScale = Vector3.zero;
+        }
     }
 
     public void ActivateMoneyAnim()
@@ -63,6 +70,10 @@ public class Construction : ConstructionData
             Buy();
             ChangeAppearance();
         }
+        else
+        {
+            Sell();
+        }
 
         if(Progress == MaxProgress)
         {
@@ -72,5 +83,10 @@ public class Construction : ConstructionData
         {
             button.UpdateText();
         } */
+
+        if(LevelManager.Instance.ActualLevel.TaskConditionComplete)
+        {
+            LevelManager.Instance.ActualLevel.EndLevel();
+        }
     }
 }

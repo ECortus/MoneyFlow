@@ -31,13 +31,20 @@ public class Bank : MonoBehaviour
 
     public void StartIncome()
     {
+        foreach(Construction con in LevelManager.Instance.ActualLevel.Constructions)
+        {
+            con.SetData();
+        }
         UpdateAmountPerSecond();
+
         if(coroutine == null) coroutine = StartCoroutine(Income());
     }
 
     public void StopIncome()
     {
+        constructions.Clear();
         if(coroutine != null) StopCoroutine(coroutine);
+        coroutine = null;
     }
 
     IEnumerator Income()

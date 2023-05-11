@@ -12,16 +12,13 @@ public class PlusMoneyTextUI : MonoBehaviour
     [SerializeField] private List<Animation> anims;
     int index => Random.Range(0, anims.Count);
 
-    void Start()
+    public async void Activate(Construction con)
     {
         foreach(Animation anim in anims)
         {
             anim.transform.localScale = Vector3.zero;
         }
-    }
 
-    public async void Activate(Construction con)
-    {
         construction = con;
         
         await UniTask.WaitUntil(() => construction.buyed);
