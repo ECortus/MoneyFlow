@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
-[ExecuteInEditMode]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; set; }
     private bool _GameActive = false;
     public void SetActive(bool value) => _GameActive = value;
-    public bool GetActive() => _GameActive;
+    public bool isActive => _GameActive;
 
     void Awake() => Instance = this;
 

@@ -20,6 +20,36 @@ public static class Statistics
         }
     }
 
-    private static int _money;
-    public static int Money { get { return _money; } set { _money = value; } }
+    private static float _money;
+    public static float Money
+    {
+        get
+        {
+            float amount = PlayerPrefs.GetFloat(DataManager.MoneyKey, 0);
+            return amount;
+        }
+
+        set
+        {
+            float amount = value;
+            PlayerPrefs.SetFloat(DataManager.MoneyKey, value);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public static int RoadSize
+    {
+        get
+        {
+            int lvl = PlayerPrefs.GetInt(DataManager.RoadKey, 0);
+            return lvl;
+        }
+
+        set
+        {
+            int lvl = value;
+            PlayerPrefs.SetInt(DataManager.RoadKey, value);
+            PlayerPrefs.Save();
+        }
+    }
 }

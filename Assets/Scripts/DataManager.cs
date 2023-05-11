@@ -10,17 +10,21 @@ public static class DataManager
 
     public static string MoneyKey = "Money";
 
-    public static string DamageKey = "Damage";
-    public static string ArmorKey = "Health";
-    public static string TimeReloadKey = "Reload";
+    public static string FlowKey = "Flow";
+    public static string RoadKey = "Road";
 
     public static void Save()
     {
-        Money.Save();
+
     }
 
     public static void Load()
     {
-        Money.Load();
+        
+    }
+
+    public static void Reset()
+    {
+        Statistics.RoadSize = 0;
     }
 }

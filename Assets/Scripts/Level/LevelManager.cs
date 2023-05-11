@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour
 
     void LoadLevel()
     {
-        BufferingLevel();
+        /* BufferingLevel(); */
         Level level = ActualLevel;
         level.On();
     }

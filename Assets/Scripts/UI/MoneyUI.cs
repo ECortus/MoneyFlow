@@ -10,24 +10,50 @@ public class MoneyUI : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private float counterPlusBySecond = 100f;
+    private float counterPlusBySecondAdaptive => counterPlusBySecond * adaptiveMod;
 
-    private static int money { get { return Statistics.Money; } set { Statistics.Money = value; } }
-    int currentMoneyCount = 0;
-    [SerializeField] private int bound = 3;
+    [SerializeField] private float bound = 3;
+    private float boundAdaptive => bound * adaptiveMod;
+    
+    private float adaptiveMod
+    {
+        get
+        {
+            float power = $"{(int)currentMoneyCount}".Length - 3;
+            return Mathf.Pow(10, (power < 0 ? 0 : power));
+        }
+    }
+
+    private static float money { get { return Statistics.Money; } set { Statistics.Money = value; } }
+    float currentMoneyCount = 0;
 
     Coroutine coroutine;
+    int sign
+    {
+        get
+        {
+            if(currentMoneyCount > money) return -1;
+            else if (currentMoneyCount < money) return 1;
+            else return 0;
+        }
+    }
 
     void Awake() => Instance = this;
 
     void Start()
     {
-        Money.Load();
         ResetMoney();
     }
 
     public void UpdateMoney()
     {
-        if(coroutine == null && currentMoneyCount != money) coroutine = StartCoroutine(Coroutine());
+        if(currentMoneyCount == money) 
+        {
+            ResetMoney();
+            return;
+        }
+
+        if(coroutine == null) coroutine = StartCoroutine(Coroutine());
     }
 
     public void ResetMoney()
@@ -42,38 +68,23 @@ public class MoneyUI : MonoBehaviour
 
         while(currentMoneyCount != money)
         {
-            if(currentMoneyCount > money) currentMoneyCount -= (int)(counterPlusBySecond * Time.deltaTime);
-            else currentMoneyCount += (int)(counterPlusBySecond * Time.deltaTime);
-
-            if(Mathf.Abs(currentMoneyCount - money) <= bound) currentMoneyCount = money;
+            currentMoneyCount = Mathf.Lerp(currentMoneyCount, money, counterPlusBySecond);
+            if(Mathf.Abs(currentMoneyCount - money) <= boundAdaptive) currentMoneyCount = money;
 
             IntoText(currentMoneyCount);
-
             yield return wait;
         }
 
         currentMoneyCount = money;
         IntoText(currentMoneyCount);
+        yield return null;
 
         StopCoroutine(coroutine);
         coroutine = null;
     }
 
-    void IntoText(int value)
+    void IntoText(float value)
     {
-        int money = value;
-        string text = $"{money}";
-
-        /* string text = "";
-        int thousands = money / 1000;
-        int hundreds = money % 1000;
-
-        if(thousands == 0) text = $"{hundreds}";
-        else
-        {
-            text = $"{thousands}." + $"{hundreds / 10}K";
-        } */
-
-        moneyText.text = text;
+        moneyText.text = MoneyAmountConvertator.IntoText(value);
     }
 }
