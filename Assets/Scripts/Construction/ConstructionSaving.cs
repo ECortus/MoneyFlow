@@ -52,10 +52,8 @@ public static class ConstructionSaving
     {
         for(int i = 0; i < List.Count; i++)
         {
-            /* PlayerPrefs.SetInt($"{baseName}{i}", 0); */
-            List[i].Progress = 0;
+            SaveConstruction(0, i);
             List[i].Reset();
         }
-        PlayerPrefs.Save();
     }
 }

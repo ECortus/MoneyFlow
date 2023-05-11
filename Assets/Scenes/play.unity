@@ -857,8 +857,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 931335659}
   - {fileID: 1437862167}
+  - {fileID: 931335659}
   - {fileID: 2633592158132454064}
   - {fileID: 5891311156039325455}
   m_Father: {fileID: 74034388}
@@ -3167,7 +3167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Levels:
-  - {fileID: 0}
   - {fileID: 74034389}
   bufferForLevel: {fileID: 343977618}
 --- !u!1 &1903136476
@@ -3456,12 +3455,12 @@ PrefabInstance:
     - target: {fileID: 497212861343952726, guid: 4c71b1f75eba43a4aa00630b902feaa5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 497212861343952726, guid: 4c71b1f75eba43a4aa00630b902feaa5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 497212861343952726, guid: 4c71b1f75eba43a4aa00630b902feaa5,
         type: 3}
@@ -3753,12 +3752,12 @@ PrefabInstance:
     - target: {fileID: 4648192054583739436, guid: 84db9ccc563d9244caa68f408b670d8a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4648192054583739436, guid: 84db9ccc563d9244caa68f408b670d8a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4648192054583739436, guid: 84db9ccc563d9244caa68f408b670d8a,
         type: 3}

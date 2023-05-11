@@ -105,6 +105,8 @@ public class Road : MonoBehaviour
     public void ResetToDefault()
     {
         Size = 0;
+
+        Setup();
         ResetRoad(Size);
     }
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class VisitSimulation : MonoBehaviour
 {
+    public static VisitSimulation Instance { get; set; }
+    void Awake() => Instance = this;
+
     [SerializeField] private float delayBetweenCall = 1f;
     private WaitForSeconds wait => new WaitForSeconds(delayBetweenCall);
 
@@ -12,17 +15,17 @@ public class VisitSimulation : MonoBehaviour
 
     Coroutine coroutine;
 
-    void Start()
+    /* void Start()
     {
         StartSim();
-    }
+    } */
 
-    void StartSim()
+    public void StartSim()
     {
         if(coroutine == null) coroutine = StartCoroutine(Sim());
     }
 
-    void StopSim()
+    public void StopSim()
     {
         if(coroutine != null) StopCoroutine(coroutine);
         coroutine = null;

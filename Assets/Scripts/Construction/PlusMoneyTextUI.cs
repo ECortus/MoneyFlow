@@ -12,6 +12,8 @@ public class PlusMoneyTextUI : MonoBehaviour
     [SerializeField] private List<Animation> anims;
     int index => Random.Range(0, anims.Count);
 
+    Coroutine coroutine;
+
     public async void Activate(Construction con)
     {
         foreach(Animation anim in anims)
@@ -22,7 +24,18 @@ public class PlusMoneyTextUI : MonoBehaviour
         construction = con;
         
         await UniTask.WaitUntil(() => construction.buyed);
-        StartCoroutine(Anim());
+        if(coroutine == null) coroutine = StartCoroutine(Anim());
+    }
+
+    public void Disable()
+    {
+        if(coroutine != null) StopCoroutine(coroutine);
+        coroutine = null;
+
+        foreach(Animation anim in anims)
+        {
+            anim.transform.localScale = Vector3.zero;
+        }
     }
 
     IEnumerator Anim()
@@ -31,6 +44,8 @@ public class PlusMoneyTextUI : MonoBehaviour
         int i;
         while(true)
         {
+            if(!GameManager.Instance.isActive) break;
+
             i = index;
 
             texts[i].text = $"+{MoneyAmountConvertator.IntoText(income)}$";

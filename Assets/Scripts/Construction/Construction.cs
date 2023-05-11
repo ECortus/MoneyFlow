@@ -86,7 +86,8 @@ public class Construction : ConstructionData
 
         if(LevelManager.Instance.ActualLevel.TaskConditionComplete)
         {
-            LevelManager.Instance.ActualLevel.EndLevel();
+            anim.Disable();
+            LevelManager.Instance.EndLevel();
         }
     }
 }

@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<Level> Levels = new List<Level>();
 
     private int _Index { get { return Statistics.LevelIndex; } set { Statistics.LevelIndex = value; } }
-    public int GetIndex() => _Index > (Levels.Count - 1) ? _Index % Levels.Count : _Index;
+    public int GetIndex() => _Index % Levels.Count;
     public void SetIndex(int value)
     {
         if(value < 0) _Index = 0;
@@ -41,11 +41,13 @@ public class LevelManager : MonoBehaviour
 
     public void EndLevel()
     {
+        ActualLevel.EndLevel();
+
         int index = _Index;
         index += 1;
         SetIndex(index);
 
-        ActualLevel.EndLevel();
+        ActualLevel.ResetToDefaultLevel();
     }
 
     void LoadLevel()
@@ -76,9 +78,9 @@ public class LevelManager : MonoBehaviour
         SetIndex(index);
 
         LoadLevel();
-        ActualLevel.ResetToDefaultLevel();
 
         StartLevel();
+        ActualLevel.ResetToDefaultLevel();
     }
 
     public void PreviousLevel()
