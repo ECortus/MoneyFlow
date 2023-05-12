@@ -24,6 +24,7 @@ public class UpgradeButtonUI : MonoBehaviour
     void OnEnable()
     {
         /* if(Progress == MaxProgress) Off(); */
+        /* transform.parent.eulerAngles = Camera.main.transform.eulerAngles; */
     }
 
     void Update()

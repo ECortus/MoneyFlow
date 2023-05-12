@@ -13,7 +13,7 @@ public class ChelicksSpawner : MonoBehaviour
 
     private int roadMod => (Road.Instance.Size + 1);
 
-    WaitForSeconds wait => new WaitForSeconds(delay / roadMod);
+    WaitForSeconds wait => new WaitForSeconds(delay / roadMod * Road.Instance.SpawnCount);
 
     private int CurrentCount
     {

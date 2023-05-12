@@ -10,7 +10,7 @@ public class ChelickGenerator : MonoBehaviour
     public int Count => List.Count;
     [SerializeField] private List<GameObject> ChelicksPrefabs = new List<GameObject>();
 
-    [HideInInspector] public List<Chelick> List = new List<Chelick>();
+    public List<Chelick> List = new List<Chelick>();
 
     public void AddChelick(Chelick chelick)
     {

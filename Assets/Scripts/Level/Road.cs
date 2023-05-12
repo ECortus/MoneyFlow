@@ -30,7 +30,7 @@ public class Road : MonoBehaviour
     {
         get
         {
-            float value = costDefault + Size * Size * costPerProgress;
+            float value = costDefault + Size * (Size / 2) * costPerProgress;
             return value;
         }
     }
@@ -38,10 +38,11 @@ public class Road : MonoBehaviour
     /* [Space]
     [SerializeField] private Transform canvas;
     [SerializeField] private Transform flow; */
-    private List<ChelicksSpawner> spawners;
+    public int SpawnCount => spawners.Count;
+    private List<ChelicksSpawner> spawners = new List<ChelicksSpawner>();
 
     [Space]
-    [SerializeField] private List<Animation> Tiers;
+    [SerializeField] private List<Animation> Tiers = new List<Animation>();
 
     void Start()
     {
@@ -125,6 +126,13 @@ public class Road : MonoBehaviour
         int variant = Size;
         ChelickGenerator.Instance.DeleteAll();
         /* VisitSimulation.Instance.SetSpawnNowCount(10); */
+        if(SpawnCount > 0)
+        {
+            foreach(ChelicksSpawner spawner in spawners)
+            {
+                spawner.StopSpawner();
+            }
+        }
 
         if(variant > Tiers.Count - 1) 
         {
@@ -142,6 +150,11 @@ public class Road : MonoBehaviour
 
                 spawners = Tiers[i].transform.GetComponentsInChildren<ChelicksSpawner>().ToList();
                 button = Tiers[i].transform.GetComponentInChildren<RoadUpgradeButtonUI>();
+
+                foreach(ChelicksSpawner spawner in spawners)
+                {
+                    spawner.StartSpawner();
+                }
             }
             else 
             {

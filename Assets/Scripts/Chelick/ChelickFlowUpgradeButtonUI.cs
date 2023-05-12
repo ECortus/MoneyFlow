@@ -10,4 +10,9 @@ public class ChelickFlowUpgradeButtonUI : UpgradeButtonUI
     protected override int Progress { get => flow.Progress; }
     protected override int MaxProgress { get => flow.MaxProgress; }
     protected override float CostOfProgress { get => flow.CostOfProgress; }
+
+    void OnEnable()
+    {
+        transform.parent.eulerAngles = Camera.main.transform.eulerAngles;
+    }
 }
