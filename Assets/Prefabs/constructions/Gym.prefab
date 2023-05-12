@@ -1325,10 +1325,10 @@ MonoBehaviour:
   - {fileID: 4379748841964700610}
   defaultObj: {fileID: 4379748842199280236}
   buyedObj: {fileID: 4379748841771937181}
-  incomePerSecondDefault: 4000
-  incomeUpPerProgress: 6000
-  costOfProgressDefault: 45000
-  costUpPerProgress: 67000
+  incomePerSecondDefault: 300
+  incomeUpPerProgress: 150
+  costOfProgressDefault: 1200
+  costUpPerProgress: 460
   buyed: 0
   visit: {fileID: 4379748840659290246}
   anim: {fileID: 1372386491037035979}
