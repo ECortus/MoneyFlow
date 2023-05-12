@@ -55,6 +55,7 @@ public class VisitSimulation : MonoBehaviour
 
                 callCount = Constructions[indexCo].Progress;
                 if(callCount > 1) callCount /= 2;
+                else if (callCount == 0) continue;
 
                 if(SpawnNowCount > 0)
                 {
