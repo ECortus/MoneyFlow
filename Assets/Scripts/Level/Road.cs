@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Road : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class Road : MonoBehaviour
     [SerializeField] private float boundX;
     [SerializeField] private float boundZ;
 
-    [Header("Upgrade parameters: ")]
-    [SerializeField] private float plusScaleSize = 1f;
+    /* [Header("Upgrade parameters: ")]
+    [SerializeField] private float plusScaleSize = 1f; */
 
     [Header("Cost: ")]
     [SerializeField] private float costDefault;
@@ -29,14 +30,18 @@ public class Road : MonoBehaviour
     {
         get
         {
-            float value = costDefault + Size * costPerProgress;
+            float value = costDefault + Size * Size * costPerProgress;
             return value;
         }
     }
 
-    [Space]
+    /* [Space]
     [SerializeField] private Transform canvas;
-    [SerializeField] private Transform spawner, flow;
+    [SerializeField] private Transform flow; */
+    private List<ChelicksSpawner> spawners;
+
+    [Space]
+    [SerializeField] private List<Animation> Tiers;
 
     void Start()
     {
@@ -45,16 +50,27 @@ public class Road : MonoBehaviour
 
     void Setup()
     {
-        defaultScale = transform.localScale;
+        foreach(Animation anim in Tiers)
+        {
+            anim.transform.localScale = Vector3.zero;
+        }
+
+        /* defaultScale = transform.localScale;
         defaultPos = transform.position;
         defaultCanvasPos = canvas.position;
         defaultFlowPos = flow.position;
-        defaultSpawnerScale = spawner.localScale;
+        
+        defaultSpawnersScale.Clear();
+        foreach(Transform spawner in spawners)
+        {   
+            defaultSpawnersScale.Add(spawner.localScale);
+        } */
 
-        ResetRoad(Size);
+        ResetRoad();
     }
 
-    private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos, defaultSpawnerScale;
+    /* private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos;
+    private List<Vector3> defaultSpawnersScale; */
 
     public Vector3 RandomDirection
     {
@@ -71,6 +87,8 @@ public class Road : MonoBehaviour
     {
         get
         {
+            Transform spawner = spawners[Random.Range(0, spawners.Count)].transform;
+
             Vector3 main = spawner.position;
             Vector3 scale = spawner.localScale;
 
@@ -99,7 +117,40 @@ public class Road : MonoBehaviour
 
         Money.Minus(CostOfProgress);
 
-        ResetRoad(value);
+        ResetRoad();
+    }
+
+    void ChangeAppearance()
+    {
+        int variant = Size;
+        ChelickGenerator.Instance.DeleteAll();
+        /* VisitSimulation.Instance.SetSpawnNowCount(10); */
+
+        if(variant > Tiers.Count - 1) 
+        {
+            variant = Tiers.Count - 1;
+        }
+        
+        for(int i = 0; i < Tiers.Count; i++)
+        {
+            if(i == variant)
+            {
+                if(Tiers[i].transform.localScale.x < 1f)
+                {
+                    Tiers[i].Play("ShowConstruction");
+                }
+
+                spawners = Tiers[i].transform.GetComponentsInChildren<ChelicksSpawner>().ToList();
+                button = Tiers[i].transform.GetComponentInChildren<RoadUpgradeButtonUI>();
+            }
+            else 
+            {
+                if(Tiers[i].transform.localScale.x > 0f)
+                {
+                    Tiers[i].Play("HideConstruction");
+                }
+            }
+        }
     }
 
     public void ResetToDefault()
@@ -107,12 +158,19 @@ public class Road : MonoBehaviour
         Size = 0;
 
         Setup();
-        ResetRoad(Size);
+        ResetRoad();
+
+        foreach(Animation anim in Tiers)
+        {
+            anim.transform.localScale = Vector3.zero;
+        }
     }
 
-    public void ResetRoad(int lvl)
+    public void ResetRoad()
     {
-        transform.position = defaultPos - new Vector3(
+        ChangeAppearance();
+
+        /* transform.position = defaultPos - new Vector3(
             0f,
             0f,
             plusScaleSize / 2f * lvl
@@ -136,11 +194,14 @@ public class Road : MonoBehaviour
             plusScaleSize / 2f * lvl
         );
 
-        spawner.localScale = defaultSpawnerScale + new Vector3(
-            0f,
-            0f,
-            plusScaleSize * lvl
-        );
+        for(int i = 0; i < spawners.Count; i++)
+        {   
+            spawners[i].localScale = defaultSpawnersScale[i] + new Vector3(
+                0f,
+                0f,
+                plusScaleSize * lvl
+            );
+        } */
 
         if(Size == MaxSize)
         {

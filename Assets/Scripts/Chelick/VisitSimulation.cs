@@ -13,6 +13,12 @@ public class VisitSimulation : MonoBehaviour
     private List<Construction> Constructions => LevelManager.Instance.ActualLevel.Constructions;
     private List<Chelick> Chelicks => ChelickGenerator.Instance.List;
 
+    private int SpawnNowCount = 0;
+    public void SetSpawnNowCount(int count)
+    {
+        SpawnNowCount = count;
+    }
+
     Coroutine coroutine;
 
     /* void Start()
@@ -50,6 +56,11 @@ public class VisitSimulation : MonoBehaviour
                 callCount = Constructions[indexCo].Progress;
                 if(callCount > 1) callCount /= 2;
 
+                if(SpawnNowCount > 0)
+                {
+                    callCount = 1;
+                }
+
                 for(int i = 0; i < callCount; i++)
                 {
                     chelick = GetChelickBehind(construction);
@@ -61,7 +72,15 @@ public class VisitSimulation : MonoBehaviour
                     construction.CallToStore(chelick);
                 }
 
-                yield return wait;
+                if(SpawnNowCount > 0)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    SpawnNowCount -= callCount;
+                }
+                else
+                {
+                    yield return wait;
+                }
             }
 
             yield return null;
