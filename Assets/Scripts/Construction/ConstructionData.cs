@@ -73,7 +73,7 @@ public class ConstructionData : MonoBehaviour
 
     public void Buy()
     {
-        if(buyed) return;
+        /* if(buyed) return; */
 
         defaultObj.SetActive(false);
         buyedObj.SetActive(true);
@@ -83,7 +83,7 @@ public class ConstructionData : MonoBehaviour
 
     public void Sell()
     {
-        if(!buyed) return;
+        /* if(!buyed) return; */
 
         defaultObj.SetActive(true);
         buyedObj.SetActive(false);

@@ -13,7 +13,7 @@ public class Construction : ConstructionData
 
     [Header("UI par-s:")]
     [SerializeField] private ConstructionUpgradeButtonUI button;
-
+    
     public void SetData()
     {
         /* await UniTask.WaitUntil(() => Bank.Instance); */
@@ -67,7 +67,7 @@ public class Construction : ConstructionData
 
         if(Progress > 0)
         {
-            Buy();
+            if(!buyed) Buy();
             ChangeAppearance();
         }
         else
