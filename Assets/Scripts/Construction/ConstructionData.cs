@@ -60,7 +60,7 @@ public class ConstructionData : MonoBehaviour
     {
         get
         {
-            float value = costOfProgressDefault + Progress * costUpPerProgress;
+            float value = costOfProgressDefault + Progress * (Progress / 2f) * costUpPerProgress;
             return value;
         }
     }

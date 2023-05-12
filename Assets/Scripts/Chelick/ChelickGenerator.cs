@@ -78,7 +78,7 @@ public class ChelickGenerator : MonoBehaviour
             return;
         }
 
-        GameObject prefab = ChelicksPrefabs[Random.Range(0, ChelicksPrefabs.Count - 1)];
+        GameObject prefab = ChelicksPrefabs[Random.Range(0, ChelicksPrefabs.Count)];
         Chelick chel = ObjectPool.Instance.Insert(ObjectType.Chelick, prefab, pos).GetComponent<Chelick>();
 
         if(target != new Vector3()) chel.SetTarget(target);

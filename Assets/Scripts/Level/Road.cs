@@ -30,7 +30,7 @@ public class Road : MonoBehaviour
     {
         get
         {
-            float value = costDefault + Size * (Size / 2) * costPerProgress;
+            float value = costDefault + Size * (Size / 2f) * costPerProgress;
             return value;
         }
     }

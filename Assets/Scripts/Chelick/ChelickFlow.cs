@@ -58,7 +58,7 @@ public class ChelickFlow : MonoBehaviour
     {
         get
         {
-            float value = costOfProgressDefault + Progress * (Progress / 2) * costUpPerProgress;
+            float value = costOfProgressDefault + Progress * (Progress / 2f) * costUpPerProgress;
             return value;
         }
     }

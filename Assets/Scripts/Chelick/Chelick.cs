@@ -81,7 +81,8 @@ public class Chelick : MonoBehaviour
         {
             if(planned)
             {
-                if(Vector3.Distance(target, transform.position) > 10f)
+                /* if(Vector3.Distance(target, transform.position) > 10f) */
+                if(Mathf.Abs(target.x - transform.position.x) > 1f)
                 {
                     direction = Road.Instance.RandomDirection;
                     return;
