@@ -31,9 +31,19 @@ public class Construction : ConstructionData
         }
     }
 
+    public void ResetVisiters()
+    {
+        visit.Visiters.Clear();
+    }
+
     public void ActivateMoneyAnim()
     {
         if(anim != null) anim.Activate(this);
+    }
+
+    public void DisableMoneyAnim()
+    {
+        if(anim != null) anim.Disable();
     }
 
     public void CallToStore(Chelick chelick)
@@ -86,7 +96,7 @@ public class Construction : ConstructionData
 
         if(LevelManager.Instance.ActualLevel.TaskConditionComplete)
         {
-            anim.Disable();
+            DisableMoneyAnim();
             LevelManager.Instance.EndLevel();
         }
     }

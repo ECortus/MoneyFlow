@@ -15,6 +15,8 @@ public class Level : MonoBehaviour
 
     /* [Header("Construction par-s: ")] */
     [HideInInspector] public List<Construction> Constructions = new List<Construction>();
+    public Road Road;
+    [HideInInspector] public ChelickFlow Flow;
 
     [Header("Camera par-s: ")]
     public float leftBound;
@@ -31,6 +33,7 @@ public class Level : MonoBehaviour
         ChelicksSpawner.Instance.StartSpawner();
         VisitSimulation.Instance.StartSim();
 
+        CameraController.Instance.Reset();
         GameManager.Instance.SetActive(true);
     }
 
@@ -54,8 +57,10 @@ public class Level : MonoBehaviour
         ChelickGenerator.Instance.DeleteAll();
 
         ConstructionSaving.ResetToDefaultConstructions();
-        Road.Instance.ResetToDefault();
-        ChelickFlow.Instance.ResetToDefault();
+        Road.ResetToDefault();
+
+        Flow = Road.transform.GetComponentInChildren<ChelickFlow>();
+        Flow.ResetToDefault();
 
         Money.Minus(Statistics.Money);
         MoneyUI.Instance.ResetMoney();

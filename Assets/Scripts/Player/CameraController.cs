@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; set; }
+    void Awake() => Instance = this;
+
     [SerializeField] private float sensitivity, speed = 100f;
 
     private float mouseStartX, mouseStartY, diffMouseX, diffMouseY, lastX;
@@ -41,6 +44,19 @@ public class CameraController : MonoBehaviour
     public void ResetTarget()
     {
         target = null;
+    }
+
+    public void Reset()
+    {
+        lastX = 0f;
+        diffMouseX = 0f;
+        diffMouseY = 0f;
+
+        transform.position = new Vector3(
+            0f,
+            transform.position.y,
+            transform.position.z
+        ); 
     }
 
     void Update()

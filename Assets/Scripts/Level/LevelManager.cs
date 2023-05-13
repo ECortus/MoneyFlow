@@ -79,8 +79,8 @@ public class LevelManager : MonoBehaviour
 
         LoadLevel();
 
-        StartLevel();
         ActualLevel.ResetToDefaultLevel();
+        StartLevel();
     }
 
     public void PreviousLevel()

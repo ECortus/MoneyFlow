@@ -53,6 +53,7 @@ public static class ConstructionSaving
         for(int i = 0; i < List.Count; i++)
         {
             SaveConstruction(0, i);
+            List[i].ResetVisiters();
             List[i].Reset();
         }
     }
