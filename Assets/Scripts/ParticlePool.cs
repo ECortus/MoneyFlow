@@ -7,13 +7,21 @@ public class ParticlePool : MonoBehaviour
     public static ParticlePool Instance;
     void Awake() => Instance = this;
 
+    private List<ParticleSystem> UpgradeContructionPool = new List<ParticleSystem>();
+    private List<ParticleSystem> ChelickEmojiPool = new List<ParticleSystem>();
+
     public GameObject Insert(ParticleType type, GameObject obj, Vector3 pos)
     {
         List<ParticleSystem> list = new List<ParticleSystem>();
 
         switch(type)
         {
-
+            case ParticleType.UpgradeContruction:
+                list = UpgradeContructionPool;
+                break;
+            case ParticleType.ChelickEmoji:
+                list = ChelickEmojiPool;
+                break;
             default:
                 break;
         }
@@ -35,7 +43,12 @@ public class ParticlePool : MonoBehaviour
 
         switch(type)
         {
-
+            case ParticleType.UpgradeContruction:
+                UpgradeContructionPool = list;
+                break;
+            case ParticleType.ChelickEmoji:
+                ChelickEmojiPool = list;
+                break;
             default:
                 break;
         }
@@ -47,5 +60,5 @@ public class ParticlePool : MonoBehaviour
 [System.Serializable]
 public enum ParticleType
 {
-    Default
+    Default, UpgradeContruction, ChelickEmoji
 }

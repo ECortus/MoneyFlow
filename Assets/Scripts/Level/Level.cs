@@ -26,15 +26,16 @@ public class Level : MonoBehaviour
     {
         Constructions = GetComponentsInChildren<Construction>().ToList();
 
-        /* ChelickGenerator.Instance.SpawnCount(defaultChelickCount); */
         Bank.Instance.StartIncome();
         ConstructionSaving.LoadConstructions();
 
-        ChelicksSpawner.Instance.StartSpawner();
-        VisitSimulation.Instance.StartSim();
+        /* VisitSimulation.Instance.StartSim(); */
 
         CameraController.Instance.Reset();
         GameManager.Instance.SetActive(true);
+
+        ChelicksSpawner.Instance.StartSpawner();
+        ChelickGenerator.Instance.DeleteAll();
     }
 
     public void EndLevel()
@@ -49,7 +50,6 @@ public class Level : MonoBehaviour
         GameManager.Instance.SetActive(false);
     }
 
-    [ContextMenu("Default")]
     public void ResetToDefaultLevel()
     {
         Constructions = GetComponentsInChildren<Construction>().ToList();

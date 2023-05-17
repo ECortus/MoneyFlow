@@ -18,7 +18,12 @@ public class Construction : ConstructionData
     {
         /* await UniTask.WaitUntil(() => Bank.Instance); */
 
-        Bank.Instance.AddConstruction(this);
+        /* Bank.Instance.AddConstruction(this); */
+        Setup();
+    }
+
+    public void Setup()
+    {
         construction = this;
 
         ActivateMoneyAnim();
@@ -36,12 +41,17 @@ public class Construction : ConstructionData
         visit.Visiters.Clear();
     }
 
-    public void ActivateMoneyAnim()
+    public void AnimMoneyIncome()
+    {
+        if(anim != null) anim.AnimIncome();
+    }
+
+    void ActivateMoneyAnim()
     {
         if(anim != null) anim.Activate(this);
     }
 
-    public void DisableMoneyAnim()
+    void DisableMoneyAnim()
     {
         if(anim != null) anim.Disable();
     }
@@ -73,7 +83,7 @@ public class Construction : ConstructionData
             /* ConstructionSaving.SaveConstructions(); */
         }
 
-        Bank.Instance.UpdateAmountPerSecond();
+        /* Bank.Instance.UpdateAmountPerSecond(); */
 
         if(Progress > 0)
         {

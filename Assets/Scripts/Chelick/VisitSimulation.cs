@@ -26,6 +26,56 @@ public class VisitSimulation : MonoBehaviour
         StartSim();
     } */
 
+    public void DistributeChelicks(int count)
+    {
+        int conCount = Constructions.Count;
+
+        int wholePart = count / conCount;
+        int leftPart = count % conCount;
+
+        Chelick chelick;
+
+        for(int i = 0; i < conCount; i++)
+        {
+            for(int t = 0; t < wholePart; t++)
+            {
+                chelick = GetAvailableChelick();
+                if(chelick == null) continue;
+                
+                Constructions[i].CallToStore(chelick);
+            }
+        }
+
+        int conIndex = 0;
+        for(int i = 0; i < leftPart; i++)
+        {
+            conIndex = Random.Range(0, Constructions.Count);
+            chelick = GetAvailableChelick();
+            if(chelick == null) continue;
+
+            Constructions[conIndex].CallToStore(chelick);
+        }
+    }
+
+    Chelick GetAvailableChelick()
+    {
+        Chelick chel;
+        int i = Chelicks.Count;
+
+        while(i > 0)
+        {
+            chel = Chelicks[Random.Range(0, Chelicks.Count)];
+            if(!chel.called)
+            {
+                return chel;
+            }
+
+            i--;
+        }
+
+        return null;
+    }
+
     public void StartSim()
     {
         if(coroutine == null) coroutine = StartCoroutine(Sim());

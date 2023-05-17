@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ConstructionVisiters : MonoBehaviour
 {
+    [SerializeField] private Construction construction;
+
+    [Space]
     [SerializeField] private Transform exit;
     private Vector3 enter 
     {
@@ -51,7 +54,11 @@ public class ConstructionVisiters : MonoBehaviour
     {
         Vector3 target = Road.Instance.GetRandomPointOnZ(transform);
 
+        Money.Plus(construction.IncomePerSecond);
+        construction.AnimMoneyIncome();
+
         Visiters.Remove(visiter);
+        visiter.Data.bag.On();
         ChelickGenerator.Instance.Spawn(exit.position, visiter.Data, target);
     }
 

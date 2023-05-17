@@ -35,9 +35,9 @@ public class Bank : MonoBehaviour
         {
             con.SetData();
         }
-        UpdateAmountPerSecond();
+        /* UpdateAmountPerSecond();
 
-        if(coroutine == null) coroutine = StartCoroutine(Income());
+        if(coroutine == null) coroutine = StartCoroutine(Income()); */
     }
 
     public void StopIncome()

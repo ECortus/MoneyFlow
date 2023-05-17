@@ -6,9 +6,13 @@ public class ChelicksDespawner : MonoBehaviour
 {
     void OnTriggerEnter(Collider col)
     {
+        Chelick chel;
+
         if(col.tag == "Chelick")
         {
-            col.GetComponent<Chelick>().Off();
+            chel = col.GetComponent<Chelick>();
+            chel.Off();
+            chel.bag.Off();
             ObjectPool.Instance.Add(ObjectType.Chelick, col.gameObject);
         }
     }

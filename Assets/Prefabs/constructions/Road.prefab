@@ -17000,7 +17000,7 @@ MonoBehaviour:
   boundX: 0
   boundZ: 0.5
   costDefault: 140
-  costPerProgress: 15700
+  costPerProgress: 3560000
   button: {fileID: 4325422148043690920}
   Tiers:
   - {fileID: 4325422147667945357}

@@ -9,13 +9,16 @@ public class Chelick : MonoBehaviour
 
     private static readonly int _Speed = Animator.StringToHash("Speed");
 
-    [SerializeField] private Animator animator;
+    /* [SerializeField] private Animator animator; */
+    [SerializeField] private Animation walkingAnimation;
     [SerializeField] private Rigidbody rb;
 
     [SerializeField] private float speed;
 
     [HideInInspector] public bool called = false;
     bool planned = false;
+
+    public ChelickBag bag;
 
     private Vector3 target;
     public void SetTarget(Vector3 trg, bool pl = false)
@@ -38,6 +41,8 @@ public class Chelick : MonoBehaviour
     {
         gameObject.SetActive(true);
         ChelickGenerator.Instance.AddChelick(this);
+
+        walkingAnimation.Play();
     }
 
     public void Off()
@@ -45,6 +50,8 @@ public class Chelick : MonoBehaviour
         ResetTarget();
         gameObject.SetActive(false);
         ChelickGenerator.Instance.RemoveChelick(this);
+
+        walkingAnimation.Stop();
     }
 
     void Update()
@@ -72,7 +79,7 @@ public class Chelick : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        animator.SetFloat(_Speed, rb.velocity.magnitude);
+        /* animator.SetFloat(_Speed, rb.velocity.magnitude); */
     }
 
     private void UpdateDirection()

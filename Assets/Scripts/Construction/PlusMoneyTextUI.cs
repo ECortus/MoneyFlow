@@ -14,7 +14,7 @@ public class PlusMoneyTextUI : MonoBehaviour
 
     Coroutine coroutine;
 
-    public async void Activate(Construction con)
+    public/*  async */ void Activate(Construction con)
     {
         foreach(Animation anim in anims)
         {
@@ -23,8 +23,14 @@ public class PlusMoneyTextUI : MonoBehaviour
 
         construction = con;
         
-        await UniTask.WaitUntil(() => construction.buyed);
-        if(coroutine == null) coroutine = StartCoroutine(Anim());
+        /* await UniTask.WaitUntil(() => construction.buyed);
+        if(coroutine == null) coroutine = StartCoroutine(Anim()); */
+    }
+
+    public void AnimIncome()
+    {
+        texts[index].text = $"{MoneyAmountConvertator.IntoText(income)}$";
+        anims[index].Play();
     }
 
     public void Disable()
@@ -48,7 +54,7 @@ public class PlusMoneyTextUI : MonoBehaviour
 
             i = index;
 
-            texts[i].text = $"+{MoneyAmountConvertator.IntoText(income)}$";
+            texts[i].text = $"{MoneyAmountConvertator.IntoText(income)}$";
             anims[i].Play();
 
             yield return wait;

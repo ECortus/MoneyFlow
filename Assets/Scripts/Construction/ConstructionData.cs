@@ -47,6 +47,8 @@ public class ConstructionData : MonoBehaviour
 
     [HideInInspector] public bool buyed = false;
 
+    [SerializeField] private GameObject upgradeEffect;
+
     public float IncomePerSecond
     {
         get
@@ -107,6 +109,7 @@ public class ConstructionData : MonoBehaviour
                 if(Tiers[i].transform.localScale.x < 1f)
                 {
                     Tiers[i].Play("ShowConstruction");
+                    ParticlePool.Instance.Insert(ParticleType.UpgradeContruction, upgradeEffect, transform.position);
                 }
             }
             else 

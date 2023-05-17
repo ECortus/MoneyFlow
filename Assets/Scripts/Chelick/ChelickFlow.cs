@@ -70,7 +70,7 @@ public class ChelickFlow : MonoBehaviour
 
         Money.Minus(CostOfProgress);
 
-        Bank.Instance.UpdateAmountPerSecond();
+        /* Bank.Instance.UpdateAmountPerSecond(); */
         Reset();
     }
 

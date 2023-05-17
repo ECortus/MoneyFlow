@@ -68,8 +68,8 @@ public class MoneyUI : MonoBehaviour
 
         while(currentMoneyCount != money)
         {
-            currentMoneyCount = Mathf.Lerp(currentMoneyCount, money, counterPlusBySecond);
-            if(Mathf.Abs(currentMoneyCount - money) <= boundAdaptive) currentMoneyCount = money;
+            currentMoneyCount = Mathf.Lerp(currentMoneyCount, money, counterPlusBySecond * Time.deltaTime);
+            if (Mathf.Abs(currentMoneyCount - money) <= boundAdaptive) break;
 
             IntoText(currentMoneyCount);
             yield return wait;

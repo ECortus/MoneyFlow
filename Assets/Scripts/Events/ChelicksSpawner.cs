@@ -49,7 +49,7 @@ public class ChelicksSpawner : MonoBehaviour
 
     IEnumerator Work()
     {
-        yield return wait;
+        yield return new WaitForSeconds(3f);
 
         int count = 0;
 
@@ -64,6 +64,8 @@ public class ChelicksSpawner : MonoBehaviour
                 {
                     ChelickGenerator.Instance.Spawn(Road.Instance.RandomPoint);
                 }
+
+                VisitSimulation.Instance.DistributeChelicks(count);
 
                 yield return wait;
             }
