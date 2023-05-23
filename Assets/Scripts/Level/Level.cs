@@ -12,6 +12,7 @@ public class Level : MonoBehaviour
 
     [Header("Chelicks par-s: ")]
     public int defaultChelickCount = 1;
+    public int moneyOnStart = 50;
 
     /* [Header("Construction par-s: ")] */
     [HideInInspector] public List<Construction> Constructions = new List<Construction>();
@@ -64,6 +65,8 @@ public class Level : MonoBehaviour
 
         Money.Minus(Statistics.Money);
         MoneyUI.Instance.ResetMoney();
+
+        Money.Plus(moneyOnStart);
     }
 
     public bool TaskConditionComplete

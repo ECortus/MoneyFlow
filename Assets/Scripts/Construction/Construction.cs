@@ -65,6 +65,7 @@ public class Construction : ConstructionData
     {
         if(Progress == MaxProgress)
         {
+            button.Off();
             return;
         }
 

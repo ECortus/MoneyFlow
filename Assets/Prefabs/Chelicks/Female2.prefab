@@ -1250,7 +1250,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.15
+  m_Radius: 0.25
   m_Height: 1.25
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: 0}
@@ -1290,6 +1290,16 @@ MonoBehaviour:
   - {fileID: 2222207885174186105, guid: 412a22cbada5a65438e53a3a1d48d760, type: 3}
   - {fileID: 0}
   - {fileID: 2277987510193521401, guid: f05e6d91881b0a84483b3c9da7126876, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &3838367671333978601
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,21 +3689,6 @@ PrefabInstance:
     - target: {fileID: 9107925932972116244, guid: 0da50d4b989d4aa49804270832557ea3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9107925932972116244, guid: 0da50d4b989d4aa49804270832557ea3,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9107925932972116244, guid: 0da50d4b989d4aa49804270832557ea3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.1250005
-      objectReference: {fileID: 0}
-    - target: {fileID: 9107925932972116244, guid: 0da50d4b989d4aa49804270832557ea3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9107925932972116244, guid: 0da50d4b989d4aa49804270832557ea3,

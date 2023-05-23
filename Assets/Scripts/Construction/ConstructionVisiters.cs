@@ -23,7 +23,7 @@ public class ConstructionVisiters : MonoBehaviour
 
     void Update()
     {
-        if(Visiters.Count == 0) return;
+        if(Visiters.Count == 0 || !GameManager.Instance.isActive) return;
 
         for(int i = 0; i < Visiters.Count; i++)
         {

@@ -51,6 +51,8 @@ public class Chelick : MonoBehaviour
         gameObject.SetActive(false);
         ChelickGenerator.Instance.RemoveChelick(this);
 
+        bag.Off();
+
         walkingAnimation.Stop();
     }
 
@@ -59,12 +61,14 @@ public class Chelick : MonoBehaviour
         if(!GameManager.Instance.isActive)
         {
             rb.velocity = Vector3.zero;
+            walkingAnimation.Stop();
+            
             return;
         }
 
         if(target != null)
         {
-            if(Vector3.Distance(target, transform.position) < 0.5f)
+            if(Vector3.Distance(target, transform.position) < 0.75f)
             {
                 ResetTarget();
             }

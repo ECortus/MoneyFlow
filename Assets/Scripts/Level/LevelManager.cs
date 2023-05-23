@@ -55,6 +55,8 @@ public class LevelManager : MonoBehaviour
         /* BufferingLevel(); */
         Level level = ActualLevel;
         level.On();
+
+        Money.Plus(ActualLevel.moneyOnStart);
     }
 
     public void NextLevel()

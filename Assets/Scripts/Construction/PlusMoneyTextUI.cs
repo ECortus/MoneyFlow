@@ -10,7 +10,6 @@ public class PlusMoneyTextUI : MonoBehaviour
     private float income => construction.IncomePerSecond;
     [SerializeField] private List<TextMeshProUGUI> texts;
     [SerializeField] private List<Animation> anims;
-    int index => Random.Range(0, anims.Count);
 
     Coroutine coroutine;
 
@@ -29,8 +28,10 @@ public class PlusMoneyTextUI : MonoBehaviour
 
     public void AnimIncome()
     {
-        texts[index].text = $"{MoneyAmountConvertator.IntoText(income)}$";
-        anims[index].Play();
+        int i = Random.Range(0, anims.Count);
+
+        texts[i].text = $"{MoneyAmountConvertator.IntoText(income)}$";
+        anims[i].Play();
     }
 
     public void Disable()
@@ -52,7 +53,7 @@ public class PlusMoneyTextUI : MonoBehaviour
         {
             if(!GameManager.Instance.isActive) break;
 
-            i = index;
+            i = Random.Range(0, anims.Count);
 
             texts[i].text = $"{MoneyAmountConvertator.IntoText(income)}$";
             anims[i].Play();

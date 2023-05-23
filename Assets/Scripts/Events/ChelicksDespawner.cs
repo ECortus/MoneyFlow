@@ -12,7 +12,6 @@ public class ChelicksDespawner : MonoBehaviour
         {
             chel = col.GetComponent<Chelick>();
             chel.Off();
-            chel.bag.Off();
             ObjectPool.Instance.Add(ObjectType.Chelick, col.gameObject);
         }
     }

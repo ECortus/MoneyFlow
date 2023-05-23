@@ -65,10 +65,16 @@ public class ChelickFlow : MonoBehaviour
 
     public void AddProgress()
     {
-        int value = Progress + 1;
-        Progress = value;
+        if(Progress == MaxProgress)
+        {
+            button.Off();
+            return;
+        }
 
         Money.Minus(CostOfProgress);
+
+        int value = Progress + 1;
+        Progress = value;
 
         /* Bank.Instance.UpdateAmountPerSecond(); */
         Reset();

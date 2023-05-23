@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 
 public class Road : MonoBehaviour
 {
@@ -113,15 +114,21 @@ public class Road : MonoBehaviour
 
     public void Upgrade()
     {
-        int value = Size + 1;
-        Size = value;
+        if(Size == MaxSize)
+        {
+            button.Off();
+            return;
+        }
 
         Money.Minus(CostOfProgress);
+
+        int value = Size + 1;
+        Size = value;
 
         ResetRoad();
     }
 
-    void ChangeAppearance()
+    async void ChangeAppearance()
     {
         int variant = Size;
         ChelickGenerator.Instance.DeleteAll();
@@ -150,11 +157,6 @@ public class Road : MonoBehaviour
 
                 spawners = Tiers[i].transform.GetComponentsInChildren<ChelicksSpawner>().ToList();
                 button = Tiers[i].transform.GetComponentInChildren<RoadUpgradeButtonUI>();
-
-                foreach(ChelicksSpawner spawner in spawners)
-                {
-                    spawner.StartSpawner();
-                }
             }
             else 
             {
@@ -163,6 +165,12 @@ public class Road : MonoBehaviour
                     Tiers[i].Play("HideConstruction");
                 }
             }
+        }
+
+        await UniTask.Delay(1500);
+        foreach(ChelicksSpawner spawner in spawners)
+        {
+            spawner.StartSpawner();
         }
     }
 

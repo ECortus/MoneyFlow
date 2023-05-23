@@ -36,9 +36,14 @@ public class ChelicksSpawner : MonoBehaviour
 
     Coroutine coroutine;
 
+    void OnDisable()
+    {
+        StopSpawner();
+    }
+
     public void StartSpawner()
     {
-        if(coroutine == null) coroutine = StartCoroutine(Work());
+        if(coroutine == null && gameObject.activeInHierarchy) coroutine = StartCoroutine(Work());
     }
 
     public void StopSpawner()
@@ -55,6 +60,12 @@ public class ChelicksSpawner : MonoBehaviour
 
         while(true)
         {
+            if(!GameManager.Instance.isActive)
+            {
+                coroutine = null;
+                break;
+            }
+
             if(RequiredCount > CurrentCount)
             {
                 count = Random.Range(minCount * roadMod, maxCount * roadMod);

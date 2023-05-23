@@ -47,6 +47,8 @@ public class ConstructionData : MonoBehaviour
 
     [HideInInspector] public bool buyed = false;
 
+    [Space]
+    [SerializeField] private GameObject upgradeStepEffect;
     [SerializeField] private GameObject upgradeEffect;
 
     public float IncomePerSecond
@@ -62,7 +64,7 @@ public class ConstructionData : MonoBehaviour
     {
         get
         {
-            float value = costOfProgressDefault + Progress * (Progress / 2f) * costUpPerProgress;
+            float value = costOfProgressDefault + (Progress / 2f) * costUpPerProgress;
             return value;
         }
     }
@@ -71,6 +73,8 @@ public class ConstructionData : MonoBehaviour
     {
         int value = Progress + 1;
         Progress = value;
+
+        ParticlePool.Instance.Insert(ParticleType.UpgradeContruction, upgradeEffect, transform.position);
     }
 
     public void Buy()
@@ -109,7 +113,7 @@ public class ConstructionData : MonoBehaviour
                 if(Tiers[i].transform.localScale.x < 1f)
                 {
                     Tiers[i].Play("ShowConstruction");
-                    ParticlePool.Instance.Insert(ParticleType.UpgradeContruction, upgradeEffect, transform.position);
+                    ParticlePool.Instance.Insert(ParticleType.UpgradeStepContruction, upgradeStepEffect, transform.position);
                 }
             }
             else 
