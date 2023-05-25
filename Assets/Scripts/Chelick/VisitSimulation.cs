@@ -26,7 +26,7 @@ public class VisitSimulation : MonoBehaviour
         StartSim();
     } */
 
-    public void DistributeChelicks(int count)
+    public void DistributeChelicks(int count, List<Chelick> chelicks)
     {
         List<Construction> list = new List<Construction>();
         foreach(Construction con in Constructions)
@@ -38,7 +38,7 @@ public class VisitSimulation : MonoBehaviour
 
         int conCount = list.Count;
 
-        int wholePart = count / conCount;
+        int wholePart = (count / conCount)/*  * conCount */;
         int leftPart = count % conCount;
 
         Chelick chelick;
@@ -47,8 +47,10 @@ public class VisitSimulation : MonoBehaviour
         {
             for(int t = 0; t < wholePart; t++)
             {
-                chelick = GetAvailableChelick();
-                if(chelick == null) continue;
+                chelick = chelicks[0];
+                chelicks.RemoveAt(0);
+                /* chelick = GetAvailableChelick();
+                if(chelick == null) continue; */
                 
                 list[i].CallToStore(chelick);
             }
@@ -57,10 +59,12 @@ public class VisitSimulation : MonoBehaviour
         int conIndex = 0;
         for(int i = 0; i < leftPart; i++)
         {
-            conIndex = Random.Range(0, list.Count);
-            chelick = GetAvailableChelick();
-            if(chelick == null) continue;
+            chelick = chelicks[0];
+            chelicks.RemoveAt(0);
+            /* chelick = GetAvailableChelick();
+            if(chelick == null) continue; */
 
+            conIndex = Random.Range(0, list.Count);
             list[conIndex].CallToStore(chelick);
         }
     }

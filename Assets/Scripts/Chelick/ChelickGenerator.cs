@@ -66,22 +66,23 @@ public class ChelickGenerator : MonoBehaviour
     }
 
 
-    public void Spawn(Vector3 pos, Chelick chelick = null, Vector3 target = new Vector3())
+    public Chelick Spawn(Vector3 pos, Vector3 spawnDirection, Chelick chelick = null, Vector3 target = new Vector3())
     {
         if(chelick != null)
         {
             chelick.transform.position = pos;
-            if(target != new Vector3()) chelick.SetTarget(target);
+            if(target != new Vector3()) chelick.SetTarget(target, true);
 
             /* ObjectPool.Instance.Delete(ObjectType.Chelick, chelick.gameObject); */
-            chelick.On();
-            return;
+            chelick.On(spawnDirection);
+            return chelick;
         }
 
         GameObject prefab = ChelicksPrefabs[Random.Range(0, ChelicksPrefabs.Count)];
-        Chelick chel = ObjectPool.Instance.Insert(ObjectType.Chelick, prefab, pos).GetComponent<Chelick>();
+        Chelick chel = ObjectPool.Instance.Insert(ObjectType.Chelick, prefab, pos, spawnDirection).GetComponent<Chelick>();
 
-        if(target != new Vector3()) chel.SetTarget(target);
+        if(target != new Vector3()) chel.SetTarget(target, true);
+        return chel;
     }
 
     public void Delete()
@@ -91,9 +92,9 @@ public class ChelickGenerator : MonoBehaviour
         ObjectPool.Instance.Add(ObjectType.Chelick, obj.gameObject);
     }
 
-    public void SetChelickToTarget(Vector3 target)
+    /* public void SetChelickToTarget(Vector3 target)
     {
         int index = Random.Range(0, List.Count - 1);
         List[index].SetTarget(target);
-    }
+    } */
 }

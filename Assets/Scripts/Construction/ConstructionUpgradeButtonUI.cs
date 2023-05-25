@@ -11,7 +11,7 @@ public class ConstructionUpgradeButtonUI : UpgradeButtonUI
 
     protected override int Progress { get => construction.Progress; }
     protected override int MaxProgress { get => construction.MaxProgress; }
-    protected override float CostOfProgress { get => construction.CostOfProgress; }
+    protected override int CostOfProgress { get => (int)construction.CostOfProgress; }
 
     void OnEnable()
     {

@@ -15,6 +15,31 @@ public class ChelicksSpawner : MonoBehaviour
 
     WaitForSeconds wait => new WaitForSeconds(delay / roadMod * Road.Instance.SpawnCount);
 
+    public Vector3 Direction
+    {
+        get
+        {
+            return transform.forward;
+        }
+    }
+
+    public Vector3 RandomPoint
+    {
+        get
+        {
+            Vector3 main = transform.position;
+            Vector3 scale = transform.localScale;
+
+            main += new Vector3(
+                Random.Range(-scale.x / 2 + Road.Instance.boundX, scale.x / 2 - Road.Instance.boundX),
+                -0.5f,
+                Random.Range(-scale.z / 2 + Road.Instance.boundZ, scale.z / 2 - Road.Instance.boundZ)
+            );
+
+            return main;
+        }
+    }
+
     private int CurrentCount
     {
         get
@@ -43,7 +68,7 @@ public class ChelicksSpawner : MonoBehaviour
 
     public void StartSpawner()
     {
-        if(coroutine == null && gameObject.activeInHierarchy) coroutine = StartCoroutine(Work());
+        if(coroutine == null && gameObject.activeInHierarchy && this.enabled) coroutine = StartCoroutine(Work());
     }
 
     public void StopSpawner()
@@ -54,9 +79,19 @@ public class ChelicksSpawner : MonoBehaviour
 
     IEnumerator Work()
     {
-        yield return new WaitForSeconds(3f);
+        if(!Tutorial.Instance.Complete)
+        {   
+            yield return new WaitUntil(() => Tutorial.Instance.Complete);
+        }
+        else
+        {
+            yield return new WaitForSeconds(3f);
+        }
 
         int count = 0;
+
+        Chelick chel;
+        List<Chelick> chelicks = new List<Chelick>();
 
         while(true)
         {
@@ -71,12 +106,15 @@ public class ChelicksSpawner : MonoBehaviour
                 count = Random.Range(minCount * roadMod, maxCount * roadMod);
                 count = Mathf.Clamp(count, 0, RequiredCount);
 
+                chelicks.Clear();
+
                 for(int i = 0; i < count; i++)
                 {
-                    ChelickGenerator.Instance.Spawn(Road.Instance.RandomPoint);
+                    chel = ChelickGenerator.Instance.Spawn(RandomPoint, Direction);
+                    chelicks.Add(chel);
                 }
 
-                VisitSimulation.Instance.DistributeChelicks(count);
+                VisitSimulation.Instance.DistributeChelicks(count, chelicks);
 
                 yield return wait;
             }

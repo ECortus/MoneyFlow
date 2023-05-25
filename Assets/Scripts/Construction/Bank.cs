@@ -76,7 +76,7 @@ public class Bank : MonoBehaviour
             AmountPerSecond += construction.IncomePerSecond;
         }
 
-        AmountPerSecond *= ChelickFlow.Instance.incomePlusPercent;
+        AmountPerSecond *= ChelickFlow.Instance.IncomePlusPercent;
 
         BankUI.Instance.ChangeValue(AmountPerSecond);
     }

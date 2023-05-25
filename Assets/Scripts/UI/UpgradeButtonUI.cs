@@ -8,7 +8,7 @@ public class UpgradeButtonUI : MonoBehaviour
 {
     protected virtual int Progress { get; }
     protected virtual int MaxProgress { get; }
-    protected virtual float CostOfProgress { get; }
+    protected virtual int CostOfProgress { get; }
 
     [Space]
     [SerializeField] private Button button;
@@ -29,6 +29,12 @@ public class UpgradeButtonUI : MonoBehaviour
 
     void Update()
     {
+        if(Progress == MaxProgress) 
+        {
+            Off();
+            return;
+        }
+
         if(CostOfProgress > Statistics.Money)
         {
             image.sprite = unavailableSpr;

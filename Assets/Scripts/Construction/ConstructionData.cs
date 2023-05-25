@@ -41,9 +41,10 @@ public class ConstructionData : MonoBehaviour
 
     [Header("Info: ")]
     [SerializeField] private float incomePerSecondDefault;
-    [SerializeField] private float incomeUpPerProgress;
+    [SerializeField] private float incomeModUpPerProgress = 1.6f;
     [SerializeField] private float costOfProgressDefault;
-    [SerializeField] private float costUpPerProgress;
+    [SerializeField] private float firstCostModUp = 14f;
+    [SerializeField] private float costModUpPerProgress = 2.4f;
 
     [HideInInspector] public bool buyed = false;
 
@@ -55,7 +56,7 @@ public class ConstructionData : MonoBehaviour
     {
         get
         {
-            float value = (Progress > 1 ? incomePerSecondDefault : 0) + Progress * incomeUpPerProgress;
+            float value = (incomePerSecondDefault * (Mathf.Pow(incomeModUpPerProgress, Progress))) * ChelickFlow.Instance.IncomePlusPercent;
             return value;
         }
     }
@@ -64,7 +65,8 @@ public class ConstructionData : MonoBehaviour
     {
         get
         {
-            float value = costOfProgressDefault + (Progress / 2f) * costUpPerProgress;
+            float mod = (Progress > 1 ? Mathf.Pow(costModUpPerProgress, Progress - 1) : 1f) * (Progress > 0 ? firstCostModUp : 1f);
+            float value = costOfProgressDefault * mod;
             return value;
         }
     }
@@ -75,6 +77,11 @@ public class ConstructionData : MonoBehaviour
         Progress = value;
 
         ParticlePool.Instance.Insert(ParticleType.UpgradeContruction, upgradeEffect, transform.position);
+
+        if(!Tutorial.Instance.Complete)
+        {
+            Tutorial.Instance.SetState(TutorialState.MOVE);
+        }
     }
 
     public void Buy()

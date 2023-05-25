@@ -15,7 +15,7 @@ public class Level : MonoBehaviour
     public int moneyOnStart = 50;
 
     /* [Header("Construction par-s: ")] */
-    [HideInInspector] public List<Construction> Constructions = new List<Construction>();
+    /* [HideInInspector]  */public List<Construction> Constructions = new List<Construction>();
     public Road Road;
     [HideInInspector] public ChelickFlow Flow;
 
@@ -25,7 +25,7 @@ public class Level : MonoBehaviour
 
     public void StartLevel()
     {
-        Constructions = GetComponentsInChildren<Construction>().ToList();
+        /* Constructions = GetComponentsInChildren<Construction>().ToList(); */
 
         Bank.Instance.StartIncome();
         ConstructionSaving.LoadConstructions();
@@ -35,7 +35,7 @@ public class Level : MonoBehaviour
         CameraController.Instance.Reset();
         GameManager.Instance.SetActive(true);
 
-        ChelicksSpawner.Instance.StartSpawner();
+        /* ChelicksSpawner.Instance.StartSpawner(); */
         ChelickGenerator.Instance.DeleteAll();
     }
 
@@ -53,7 +53,7 @@ public class Level : MonoBehaviour
 
     public void ResetToDefaultLevel()
     {
-        Constructions = GetComponentsInChildren<Construction>().ToList();
+        /* Constructions = GetComponentsInChildren<Construction>().ToList(); */
 
         ChelickGenerator.Instance.DeleteAll();
 

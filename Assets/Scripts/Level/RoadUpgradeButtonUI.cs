@@ -11,5 +11,5 @@ public class RoadUpgradeButtonUI : UpgradeButtonUI
 
     protected override int Progress { get => road.Size; }
     protected override int MaxProgress { get => road.MaxSize; }
-    protected override float CostOfProgress { get => road.CostOfProgress; }
+    protected override int CostOfProgress { get => (int)road.CostOfProgress; }
 }

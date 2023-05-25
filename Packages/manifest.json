@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
+    "com.unity.addressables": "1.19.19",
     "com.unity.collab-proxy": "2.0.3",
     "com.unity.feature.mobile": "1.0.0",
     "com.unity.ide.rider": "3.0.18",
@@ -11,6 +12,7 @@
     "com.unity.timeline": "1.6.4",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.8.0",
+    "com.whinarn.unitymeshsimplifier": "https://github.com/Whinarn/UnityMeshSimplifier.git",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

@@ -25,13 +25,12 @@ public class ChelickFlow : MonoBehaviour
     public int MaxProgress;
 
     [Header("Info: ")]
-    private float incomePlusPercentDefault = 1f;
-    [Range(0, 1)]
-    [SerializeField] private float incomeUpPerProgress;
+    [SerializeField] private float defaultIncomeUpPerProgress = 1.4f;
+    [SerializeField] private float incomeModPerLevel = 0.4f;
 
     [Header("Cost: ")]
-    [SerializeField] private float costOfProgressDefault;
-    [SerializeField] private float costUpPerProgress;
+    [SerializeField] private float costOfProgressDefault = 7f;
+    [SerializeField] private float costModPerLevel = 1.6f;
 
     [Header("More chelicks...")]
     [SerializeField] private int plusChelicks = 10;
@@ -45,11 +44,11 @@ public class ChelickFlow : MonoBehaviour
         Reset();
     }
 
-    public float incomePlusPercent
+    public float IncomePlusPercent
     {
         get
         {
-            float value = incomePlusPercentDefault + Progress * incomeUpPerProgress;
+            float value = 1f + defaultIncomeUpPerProgress + incomeModPerLevel * Progress;
             return value;
         }
     }
@@ -58,7 +57,7 @@ public class ChelickFlow : MonoBehaviour
     {
         get
         {
-            float value = costOfProgressDefault + Progress * (Progress / 2f) * costUpPerProgress;
+            float value = costOfProgressDefault * Mathf.Pow(costModPerLevel, Progress);
             return value;
         }
     }

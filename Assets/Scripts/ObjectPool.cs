@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
 
     private List<GameObject> ChelickPool = new List<GameObject>();
 
-    public GameObject Insert(ObjectType type, GameObject obj, Vector3 pos = new Vector3(), Vector3 rot = new Vector3())
+    public GameObject Insert(ObjectType type, GameObject obj, Vector3 pos = new Vector3(), Vector3 direction = new Vector3(), Vector3 rot = new Vector3())
     {
         switch(type)
         {
@@ -30,7 +30,7 @@ public class ObjectPool : MonoBehaviour
 
                 if(go != null) 
                 {
-                    go.GetComponent<Chelick>().On();
+                    go.GetComponent<Chelick>().On(direction);
                     return go;
                 }
                 break;

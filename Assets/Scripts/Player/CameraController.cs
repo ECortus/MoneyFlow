@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
     private float leftBound => LevelManager.Instance.ActualLevel.leftBound;
     private float rightBound => LevelManager.Instance.ActualLevel.rightBound;
 
+    public bool Active = true;
+
     private float diffMouseSplit
     {
         get
@@ -61,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(!GameManager.Instance.isActive) return;
+        if(!GameManager.Instance.isActive || !Active) return;
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -71,6 +73,11 @@ public class CameraController : MonoBehaviour
         if(Input.GetMouseButton(0) || transform.position != pos)
         {
             Move();
+
+            if(!Tutorial.Instance.Complete)
+            {
+                Tutorial.Instance.Off();
+            }
         }
 
         if(Input.GetMouseButtonUp(0))

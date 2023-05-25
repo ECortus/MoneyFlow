@@ -13,7 +13,7 @@ public class Chelick : MonoBehaviour
     [SerializeField] private Animation walkingAnimation;
     [SerializeField] private Rigidbody rb;
 
-    [SerializeField] private float speed;
+    private float speed = 0f;
 
     [HideInInspector] public bool called = false;
     bool planned = false;
@@ -21,24 +21,43 @@ public class Chelick : MonoBehaviour
     public ChelickBag bag;
 
     private Vector3 target;
+    private float targetX => target.x;
+    private float targetZ = -9999f;
     public void SetTarget(Vector3 trg, bool pl = false)
     {
+        target = trg;
+        targetZ = Road.Instance.GetRandomPointOnZ(trg).z;
+
         called = true;
         planned = pl;
-        target = trg;
     }
     public void ResetTarget()
     {
         called = false;
         planned = false;
         target = new Vector3();
-        /* direction = Road.Instance.RandomDirection; */
+        /* direction = MainDirection; */
     }
 
     private Vector3 direction;
+    private Vector3 MainDirection;
 
-    public void On()
+    private bool SpawnOnMain = true;
+
+    public void On(Vector3 dir)
     {
+        speed = Random.Range(3f, 4.5f);
+        if(dir.x < Vector3.positiveInfinity.x) MainDirection = dir;
+
+        if(dir.x < 0.05f)
+        {
+            SpawnOnMain = false;
+        }
+        else
+        {
+            SpawnOnMain = true;
+        }
+
         gameObject.SetActive(true);
         ChelickGenerator.Instance.AddChelick(this);
 
@@ -68,7 +87,7 @@ public class Chelick : MonoBehaviour
 
         if(target != null)
         {
-            if(Vector3.Distance(target, transform.position) < 0.75f)
+            if(Vector3.Distance(target, transform.position) < 1f)
             {
                 ResetTarget();
             }
@@ -92,18 +111,32 @@ public class Chelick : MonoBehaviour
         {
             if(planned)
             {
-                /* if(Vector3.Distance(target, transform.position) > 10f) */
-                if(Mathf.Abs(target.x - transform.position.x) > 1f)
+                if(Mathf.Abs(targetX - transform.position.x) > 1f && SpawnOnMain)
                 {
-                    direction = Road.Instance.RandomDirection;
+                    direction = MainDirection;
                     return;
+                }
+
+                if(!SpawnOnMain)
+                {
+                    if(Mathf.Abs(targetZ + ((MainDirection.z) > 0f ? 1f : -1f) - transform.position.z) > 1f)
+                    {
+                        direction = MainDirection;
+                        return;
+                    }
+
+                    if(Mathf.Abs(targetX - ((MainDirection.x) > 0f ? 1f : -1f) - transform.position.x) > 1f)
+                    {
+                        direction = Mathf.Sign(targetX - transform.position.x) * Road.Instance.MainDirection;
+                        return;
+                    }
                 }
             }
             direction = (target - transform.position).normalized;
         }
         else
         {
-            direction = Road.Instance.RandomDirection;
+            direction = MainDirection;
         }
     }
 
@@ -112,7 +145,7 @@ public class Chelick : MonoBehaviour
         rb.velocity = direction * speed;
     }
 
-    public void Rotate()
+    private void Rotate()
     {
         var targetRotation = Quaternion.LookRotation(direction);
         targetRotation.x = 0f;

@@ -14,15 +14,16 @@ public class Road : MonoBehaviour
     public int Size { get { return Statistics.RoadSize; } set { Statistics.RoadSize = value; } }
 
     [Space]
-    [SerializeField] private float boundX;
-    [SerializeField] private float boundZ;
+    public float boundX;
+    public float boundZ;
 
     /* [Header("Upgrade parameters: ")]
     [SerializeField] private float plusScaleSize = 1f; */
 
     [Header("Cost: ")]
-    [SerializeField] private float costDefault;
-    [SerializeField] private float costPerProgress;
+    [SerializeField] private List<float> Costs;
+    /* [SerializeField] private float costDefault;
+    [SerializeField] private float costPerProgress; */
 
     [Space]
     [SerializeField] private RoadUpgradeButtonUI button;
@@ -31,7 +32,7 @@ public class Road : MonoBehaviour
     {
         get
         {
-            float value = costDefault + Size * (Size / 2f) * costPerProgress;
+            float value = /* costDefault + Size * (Size / 2f) * costPerProgress; */Costs[Size + 1];
             return value;
         }
     }
@@ -40,7 +41,7 @@ public class Road : MonoBehaviour
     [SerializeField] private Transform canvas;
     [SerializeField] private Transform flow; */
     public int SpawnCount => spawners.Count;
-    private List<ChelicksSpawner> spawners = new List<ChelicksSpawner>();
+    public List<ChelicksSpawner> spawners = new List<ChelicksSpawner>();
 
     [Space]
     [SerializeField] private List<Animation> Tiers = new List<Animation>();
@@ -74,14 +75,41 @@ public class Road : MonoBehaviour
     /* private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos;
     private List<Vector3> defaultSpawnersScale; */
 
+    public Vector3 MainDirection
+    {
+        get
+        {
+            return transform.right;
+        }
+    }
+
     public Vector3 RandomDirection
     {
         get
         {
-            /* int value = Random.Range(0, 2);
-            Vector3 direction = value > 0 ? transform.right : -transform.right;
-            return direction; */
-            return transform.right;
+            ChelicksSpawner spawner = spawners[Random.Range(0, spawners.Count)];
+            return spawner.Direction;
+        }
+    }
+
+    public Vector3 RandomPointOnSpawner
+    {
+        get
+        {
+            ChelicksSpawner spawner = spawners[Random.Range(0, spawners.Count)];
+            return spawner.RandomPoint;
+        }
+    }
+
+    public Vector3 RandomPointBehindSpawner
+    {
+        get
+        {
+            ChelicksSpawner spawner = spawners[Random.Range(0, spawners.Count)];
+            bool right = Random.Range(0, 100) > 50 ? true : false;
+            
+            return spawner.RandomPoint + spawner.Direction * 1000f * 
+                (spawners.IndexOf(spawner) < 2 ? (right ? 1 : -1) : -1f);
         }
     }
 
@@ -89,10 +117,11 @@ public class Road : MonoBehaviour
     {
         get
         {
-            Transform spawner = spawners[Random.Range(0, spawners.Count)].transform;
+            int index = spawners.Count > 1 ? Random.Range(0, 2) : 0;
+            ChelicksSpawner spawner = spawners[index];
 
-            Vector3 main = spawner.position;
-            Vector3 scale = spawner.localScale;
+            Vector3 main = spawner.transform.position;
+            Vector3 scale = spawner.transform.localScale;
 
             main += new Vector3(
                 Random.Range(-scale.x / 2 + boundX, scale.x / 2 - boundX),
@@ -104,10 +133,10 @@ public class Road : MonoBehaviour
         }
     }
 
-    public Vector3 GetRandomPointOnZ(Transform ax)
+    public Vector3 GetRandomPointOnZ(Vector3 ax)
     {
         Vector3 main = RandomPoint;
-        main.x = ax.position.x;
+        main.x = ax.x;
 
         return main;
     }
@@ -138,6 +167,7 @@ public class Road : MonoBehaviour
             foreach(ChelicksSpawner spawner in spawners)
             {
                 spawner.StopSpawner();
+                spawner.enabled = false;
             }
         }
 
@@ -152,6 +182,7 @@ public class Road : MonoBehaviour
             {
                 if(Tiers[i].transform.localScale.x < 1f)
                 {
+                    /* Tiers[i].gameObject.SetActive(true); */
                     Tiers[i].Play("ShowConstruction");
                 }
 
@@ -163,6 +194,8 @@ public class Road : MonoBehaviour
                 if(Tiers[i].transform.localScale.x > 0f)
                 {
                     Tiers[i].Play("HideConstruction");
+                    /* Tiers[i].transform.localScale = Vector3.zero;
+                    Tiers[i].gameObject.SetActive(false); */
                 }
             }
         }
@@ -170,6 +203,7 @@ public class Road : MonoBehaviour
         await UniTask.Delay(1500);
         foreach(ChelicksSpawner spawner in spawners)
         {
+            spawner.enabled = true;
             spawner.StartSpawner();
         }
     }

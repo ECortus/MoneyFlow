@@ -24,7 +24,7 @@ public static class MoneyAmountConvertator
         int power = GetThousandPower(money) * 3;
         string text = "";
 
-        if((int)(money.ToString().Length) < 4) return money.ToString();
+        if((((int)(money)).ToString().Length) < 4) return ((int)(money)).ToString();
 
         string whole = $"{(uint)(money / Mathf.Pow(10, power))}";
         string left = $"{(uint)(money % Mathf.Pow(10, power))}";

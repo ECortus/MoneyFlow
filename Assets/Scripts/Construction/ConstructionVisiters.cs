@@ -12,7 +12,7 @@ public class ConstructionVisiters : MonoBehaviour
     {
         get
         {
-            return exit.position + new Vector3(0f, 0f, 1f) * 1f;
+            return exit.position + new Vector3(0f, 0f, 1f) * 4f;
         }
     }
 
@@ -42,24 +42,25 @@ public class ConstructionVisiters : MonoBehaviour
 
     void Add(Chelick chelick)
     {
+        chelick.Off();
+
         Visiter visiter = new Visiter();
         visiter.Data = chelick;
         visiter.Time = Random.Range(minTime, maxTime);
         Visiters.Add(visiter);
-
-        chelick.Off();
     }
 
     void Remove(Visiter visiter)
     {
-        Vector3 target = Road.Instance.GetRandomPointOnZ(transform);
+        /* Vector3 target = Road.Instance.GetRandomPointOnZ(transform); */
+        Vector3 target = Road.Instance.RandomPointBehindSpawner;
 
         Money.Plus(construction.IncomePerSecond);
         construction.AnimMoneyIncome();
 
         Visiters.Remove(visiter);
         visiter.Data.bag.On();
-        ChelickGenerator.Instance.Spawn(exit.position, visiter.Data, target);
+        ChelickGenerator.Instance.Spawn(exit.position, -Vector3.forward, visiter.Data, target);
     }
 
     void OnTriggerEnter(Collider col)
