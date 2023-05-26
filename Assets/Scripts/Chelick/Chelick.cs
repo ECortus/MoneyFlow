@@ -46,7 +46,7 @@ public class Chelick : MonoBehaviour
 
     public void On(Vector3 dir)
     {
-        speed = Random.Range(3f, 4.5f);
+        speed = Random.Range(2.5f, 4f);
         if(dir.x < Vector3.positiveInfinity.x) MainDirection = dir;
 
         if(dir.x < 0.05f)
@@ -125,7 +125,7 @@ public class Chelick : MonoBehaviour
                         return;
                     }
 
-                    if(Mathf.Abs(targetX - ((MainDirection.x) > 0f ? 1f : -1f) - transform.position.x) > 1f)
+                    if(Mathf.Abs(targetX /* - ((MainDirection.x) > 0f ? 1f : -1f) * ((MainDirection.z) > 0f ? 1f : 0f) */ - transform.position.x) > 0.5f)
                     {
                         direction = Mathf.Sign(targetX - transform.position.x) * Road.Instance.MainDirection;
                         return;

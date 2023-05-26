@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public static class MoneyAmountConvertator
 {
@@ -24,10 +25,10 @@ public static class MoneyAmountConvertator
         int power = GetThousandPower(money) * 3;
         string text = "";
 
-        if((((int)(money)).ToString().Length) < 4) return ((int)(money)).ToString();
+        if(((Mathf.Round(money)).ToString().Length) < 4) return (Mathf.Round(money)).ToString();
 
-        string whole = $"{(uint)(money / Mathf.Pow(10, power))}";
-        string left = $"{(uint)(money % Mathf.Pow(10, power))}";
+        string whole = $"{Mathf.Round(money / Mathf.Pow(10, power))}";
+        string left = $"{Mathf.Round(money % Mathf.Pow(10, power))}";
 
         if(left.Length < 3)
         {
@@ -36,6 +37,8 @@ public static class MoneyAmountConvertator
 
         if(whole.Length < 3) text = whole + "." + left[0..(3 - whole.Length)];
         else text = whole;
+
+        if(!Char.IsDigit(text[text.Length - 1])) text = text[0..(text.Length - 1)];
 
         text += $"{GetPreName(power)}";
 

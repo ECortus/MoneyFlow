@@ -9,7 +9,7 @@ public class ChelickFlowUpgradeButtonUI : UpgradeButtonUI
 
     protected override int Progress { get => flow.Progress; }
     protected override int MaxProgress { get => flow.MaxProgress; }
-    protected override int CostOfProgress { get => (int)flow.CostOfProgress; }
+    protected override float CostOfProgress { get => flow.CostOfProgress; }
 
     void OnEnable()
     {

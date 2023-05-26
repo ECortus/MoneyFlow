@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+        /* Time.timeScale = 5f; */
     }
 
     public void SetFollowTarget(Transform tf)
