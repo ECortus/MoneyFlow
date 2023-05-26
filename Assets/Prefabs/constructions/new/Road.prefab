@@ -9431,8 +9431,8 @@ MonoBehaviour:
   Costs:
   - 0
   - 20000
-  - 1250000
-  - 15290000
+  - 1850000
+  - 152900000
   button: {fileID: 4325422147260295653}
   spawners: []
   Tiers:
