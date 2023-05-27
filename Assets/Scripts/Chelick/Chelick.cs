@@ -11,7 +11,7 @@ public class Chelick : MonoBehaviour
 
     /* [SerializeField] private Animator animator; */
     [SerializeField] private Animation walkingAnimation;
-    [SerializeField] private Rigidbody rb;
+    /* [SerializeField] private Rigidbody rb; */
 
     private float speed = 0f;
 
@@ -79,7 +79,7 @@ public class Chelick : MonoBehaviour
     {
         if(!GameManager.Instance.isActive)
         {
-            rb.velocity = Vector3.zero;
+            /* rb.velocity = Vector3.zero; */
             walkingAnimation.Stop();
             
             return;
@@ -94,7 +94,7 @@ public class Chelick : MonoBehaviour
         }
 
         UpdateDirection();
-        UpdateVelocity();
+        Move();
         Rotate();
 
         UpdateAnimator();
@@ -140,9 +140,10 @@ public class Chelick : MonoBehaviour
         }
     }
 
-    private void UpdateVelocity()
+    private void Move()
     {
-        rb.velocity = direction * speed;
+        /* rb.velocity = direction * speed; */
+        transform.position = Vector3.Lerp(transform.position, transform.position + direction * speed, speed / 4f * Time.deltaTime);
     }
 
     private void Rotate()

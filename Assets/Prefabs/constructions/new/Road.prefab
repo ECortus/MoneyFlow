@@ -1798,11 +1798,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56a9f8dcda2714eb2a99904ea93667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxProgress: 25
+  MaxProgress: 28
   defaultIncomeUpPerProgress: 1.4
   incomeModPerLevel: 0.4
   costOfProgressDefault: 7
-  costModPerLevel: 1.6
+  costModPerLevel: 1.8
   plusChelicks: 2
   button: {fileID: 7512820865978277370}
 --- !u!1 &2485734562190506264
@@ -9409,7 +9409,7 @@ BoxCollider:
   m_GameObject: {fileID: 4325422148813094872}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 15, y: 1, z: 25}
   m_Center: {x: 0, y: -0.3, z: 0}
@@ -9431,8 +9431,8 @@ MonoBehaviour:
   Costs:
   - 0
   - 20000
-  - 1850000
-  - 152900000
+  - 185000000
+  - 3.529e+12
   button: {fileID: 4325422147260295653}
   spawners: []
   Tiers:
@@ -12057,11 +12057,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56a9f8dcda2714eb2a99904ea93667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxProgress: 25
+  MaxProgress: 28
   defaultIncomeUpPerProgress: 1.4
   incomeModPerLevel: 0.4
   costOfProgressDefault: 7
-  costModPerLevel: 1.6
+  costModPerLevel: 1.8
   plusChelicks: 3
   button: {fileID: 7512820865561524624}
 --- !u!1 &7512820864701650708
@@ -13855,11 +13855,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56a9f8dcda2714eb2a99904ea93667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxProgress: 25
+  MaxProgress: 28
   defaultIncomeUpPerProgress: 1.4
   incomeModPerLevel: 0.4
   costOfProgressDefault: 7
-  costModPerLevel: 1.6
+  costModPerLevel: 1.8
   plusChelicks: 3
   button: {fileID: 7512820865563877170}
 --- !u!1 &7512820864996736158
@@ -15976,11 +15976,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd56a9f8dcda2714eb2a99904ea93667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxProgress: 25
+  MaxProgress: 28
   defaultIncomeUpPerProgress: 1.4
   incomeModPerLevel: 0.4
   costOfProgressDefault: 7
-  costModPerLevel: 1.6
+  costModPerLevel: 1.8
   plusChelicks: 3
   button: {fileID: 7512820865577564130}
 --- !u!1 &7512820865276555118
