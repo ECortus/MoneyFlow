@@ -6,6 +6,8 @@ public class ChelicksDespawner : MonoBehaviour
 {
     void OnTriggerEnter(Collider col)
     {
+        if(!gameObject.activeInHierarchy) return;
+
         Chelick chel;
 
         if(col.tag == "Chelick")

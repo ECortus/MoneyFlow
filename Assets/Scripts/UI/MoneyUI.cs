@@ -19,8 +19,8 @@ public class MoneyUI : MonoBehaviour
     {
         get
         {
-            float power = $"{(int)currentMoneyCount}".Length - 3;
-            return Mathf.Pow(10, (power < 0 ? 0 : power));
+            float power = $"{Mathf.Round(currentMoneyCount)}".Length - 3;
+            return Mathf.Pow(10, (power < 0 ? 0 : power / 1.25f));
         }
     }
 
@@ -49,7 +49,7 @@ public class MoneyUI : MonoBehaviour
     {
         if(currentMoneyCount == money) 
         {
-            ResetMoney();
+            ResetMoney(); 
             return;
         }
 

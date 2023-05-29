@@ -2110,7 +2110,7 @@ MonoBehaviour:
   incomeModUpPerProgress: 2
   costOfProgressDefault: 9.47e+13
   firstCostModUp: 3
-  costModUpPerProgress: 2
+  costModUpPerProgress: 1.9
   buyed: 0
   upgradeStepEffect: {fileID: 1198805850805218500, guid: d3a1e4fd278e4d0439c7a8911d0f2b77,
     type: 3}

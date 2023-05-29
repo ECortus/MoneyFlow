@@ -3301,10 +3301,10 @@ MonoBehaviour:
   defaultObj: {fileID: 2728514522377862643}
   buyedObj: {fileID: 1591208957507413614}
   incomePerSecondDefault: 9.6e+9
-  incomeModUpPerProgress: 2
+  incomeModUpPerProgress: 1.8
   costOfProgressDefault: 5.56e+11
   firstCostModUp: 4
-  costModUpPerProgress: 2
+  costModUpPerProgress: 1.9
   buyed: 0
   upgradeStepEffect: {fileID: 1198805850805218500, guid: d3a1e4fd278e4d0439c7a8911d0f2b77,
     type: 3}

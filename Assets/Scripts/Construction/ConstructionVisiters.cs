@@ -17,13 +17,29 @@ public class ConstructionVisiters : MonoBehaviour
     }
 
     private float minTime = 2f;
-    private float maxTime = 15f;
+    private float maxTime = 12f;
 
     public List<Visiter> Visiters = new List<Visiter>();
+
+    /* int roadLevel => Road.Instance.Size;
+    float maxDelay = 2f;
+    float time = 2f;
+    int previousRoadLevel = Road.Instance.Size; */
 
     void Update()
     {
         if(Visiters.Count == 0 || !GameManager.Instance.isActive) return;
+
+        /* if(roadLevel != previousRoadLevel)
+        {
+            time -= Time.deltaTime;
+            if(time < 0)
+            {
+                time = maxDelay;
+                previousRoadLevel = roadLevel;
+            }
+            return;
+        } */
 
         for(int i = 0; i < Visiters.Count; i++)
         {

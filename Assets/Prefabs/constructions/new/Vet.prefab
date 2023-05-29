@@ -1597,11 +1597,11 @@ MonoBehaviour:
   - {fileID: 2068826023254537469}
   defaultObj: {fileID: 53693228151651877}
   buyedObj: {fileID: 8239300559131780127}
-  incomePerSecondDefault: 1.5546e+13
+  incomePerSecondDefault: 7.5546e+13
   incomeModUpPerProgress: 2
   costOfProgressDefault: 5.6e+14
   firstCostModUp: 3
-  costModUpPerProgress: 2
+  costModUpPerProgress: 1.9
   buyed: 0
   upgradeStepEffect: {fileID: 1198805850805218500, guid: d3a1e4fd278e4d0439c7a8911d0f2b77,
     type: 3}
