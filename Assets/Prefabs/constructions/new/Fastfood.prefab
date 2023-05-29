@@ -439,7 +439,7 @@ MonoBehaviour:
   - {fileID: 3093228639519753943}
   defaultObj: {fileID: 5072032736870329873}
   buyedObj: {fileID: 5841545262827119931}
-  incomePerSecondDefault: 160
+  incomePerSecondDefault: 210
   incomeModUpPerProgress: 1.8
   costOfProgressDefault: 950
   firstCostModUp: 8

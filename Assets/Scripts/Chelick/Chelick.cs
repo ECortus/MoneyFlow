@@ -46,7 +46,7 @@ public class Chelick : MonoBehaviour
 
     public void On(Vector3 dir)
     {
-        speed = Random.Range(2.5f, 4f);
+        speed = Random.Range(2.5f, 3.3f);
         if(dir.x < Vector3.positiveInfinity.x) MainDirection = dir;
 
         if(dir.x < 0.05f)
