@@ -13,7 +13,7 @@ public class ConstructionsGrid : MonoBehaviour
             List<Transform> list = new List<Transform>();
             foreach(Transform child in transform)
             {
-                list.Add(child);
+                if(child.gameObject.activeSelf) list.Add(child);
             }
             return list;
         }

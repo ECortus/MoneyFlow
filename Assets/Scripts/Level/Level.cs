@@ -16,12 +16,27 @@ public class Level : MonoBehaviour
 
     /* [Header("Construction par-s: ")] */
     /* [HideInInspector]  */public List<Construction> Constructions = new List<Construction>();
+    public int GetIndexOfConstruction(Construction con)
+    {
+        return Constructions.IndexOf(con);
+    }
     public Road Road;
     [HideInInspector] public ChelickFlow Flow;
 
     [Header("Camera par-s: ")]
     public float leftBound;
-    public float rightBound;
+    [SerializeField] private List<int> MaxRightBoundByRoad;
+
+    public float rightBound
+    {
+        get
+        {
+            return MaxRightBoundByRoad[/* Road.Instance.Size */MaxRightBoundByRoad.Count - 1];
+        }
+    }
+
+    [Space]
+    [SerializeField] private List<UpgradeButtonUI> AllUpgradeButtons = new List<UpgradeButtonUI>();
 
     public void StartLevel()
     {
@@ -37,6 +52,8 @@ public class Level : MonoBehaviour
 
         /* ChelicksSpawner.Instance.StartSpawner(); */
         ChelickGenerator.Instance.DeleteAll();
+
+        RefreshAllButtons();
     }
 
     public void EndLevel()
@@ -67,6 +84,14 @@ public class Level : MonoBehaviour
         MoneyUI.Instance.ResetMoney();
 
         Money.Plus(moneyOnStart);
+    }
+
+    public void RefreshAllButtons()
+    {
+        foreach(UpgradeButtonUI button in AllUpgradeButtons)
+        {
+            /* if(button.gameObject.activeInHierarchy)  */button.Refresh();
+        }
     }
 
     public bool TaskConditionComplete

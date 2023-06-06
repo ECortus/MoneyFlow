@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChelickBag : MonoBehaviour
 {
+    public bool Active = false;
     [SerializeField] private Transform bagParent;
     [SerializeField] private List<GameObject> buyingEffects = new List<GameObject>();
     private GameObject BuyingEffect => buyingEffects[Random.Range(0, buyingEffects.Count)];
@@ -16,6 +17,7 @@ public class ChelickBag : MonoBehaviour
     public void On()
     {
         bagParent.gameObject.SetActive(true);
+        Active = true;
 
         GameObject effect;
         if(buyingEffects.Count > 0) 
@@ -31,5 +33,6 @@ public class ChelickBag : MonoBehaviour
     public void Off()
     {
         bagParent.gameObject.SetActive(false);
+        Active = false;
     }
 }

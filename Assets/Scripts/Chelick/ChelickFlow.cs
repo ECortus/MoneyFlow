@@ -36,6 +36,17 @@ public class ChelickFlow : MonoBehaviour
     [SerializeField] private int plusChelicks = 10;
     public int RequiredPlusChelicks => plusChelicks * Progress;
 
+    public int AllChelicksCount
+    {
+        get
+        {
+            int def = LevelManager.Instance.ActualLevel.defaultChelickCount;
+            int plus = ChelickFlow.Instance.RequiredPlusChelicks * (Road.Instance.Size + 1);
+
+            return def + plus;
+        }
+    }
+
     [Space]
     [SerializeField] private ChelickFlowUpgradeButtonUI button;
 
@@ -77,6 +88,8 @@ public class ChelickFlow : MonoBehaviour
 
         /* Bank.Instance.UpdateAmountPerSecond(); */
         Reset();
+
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
     }
 
     public void ResetToDefault()

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Unity.AI.Navigation;
 
 public class Road : MonoBehaviour
 {
     public static Road Instance { get; set; }
     void Awake() => Instance = this;
 
-    [Header("Progress: ")]
+    [Header("Size: ")]
+    [SerializeField] private int setupSize = 0;
     public int MaxSize;
     public int Size { get { return Statistics.RoadSize; } set { Statistics.RoadSize = value; } }
 
@@ -23,7 +25,7 @@ public class Road : MonoBehaviour
     [Header("Cost: ")]
     [SerializeField] private List<float> Costs;
     /* [SerializeField] private float costDefault;
-    [SerializeField] private float costPerProgress; */
+    [SerializeField] private float costPerSize; */
 
     [Space]
     [SerializeField] private RoadUpgradeButtonUI button;
@@ -32,7 +34,9 @@ public class Road : MonoBehaviour
     {
         get
         {
-            float value = /* costDefault + Size * (Size / 2f) * costPerProgress; */Costs[Size + 1];
+            if(Size + 1 > Costs.Count - 1) return 0f;
+
+            float value = /* costDefault + Size * (Size / 2f) * costPerSize; */Costs[Size + 1];
             return value;
         }
     }
@@ -41,10 +45,13 @@ public class Road : MonoBehaviour
     [SerializeField] private Transform canvas;
     [SerializeField] private Transform flow; */
     public int SpawnCount => spawners.Count;
-    public List<ChelicksSpawner> spawners = new List<ChelicksSpawner>();
+    private List<ChelicksSpawner> spawners = new List<ChelicksSpawner>();
+    private List<SeatPlace> seatPlaces = new List<SeatPlace>();
+    private List<AdditionalStall> stalls = new List<AdditionalStall>();
 
     [Space]
     [SerializeField] private List<Animation> Tiers = new List<Animation>();
+    [SerializeField] private List<NavMeshSurface> surfaces = new List<NavMeshSurface>();
 
     void Start()
     {
@@ -75,6 +82,16 @@ public class Road : MonoBehaviour
     /* private Vector3 defaultScale, defaultPos, defaultCanvasPos, defaultFlowPos;
     private List<Vector3> defaultSpawnersScale; */
 
+    public void CallToRandomStall(Chelick chel)
+    {
+        if(stalls.Count > 0) stalls[Random.Range(0, stalls.Count)].Call(chel);
+    }
+
+    public void CallToStall(Chelick chel, int index)
+    {
+        stalls[index].Call(chel);
+    }
+
     public Vector3 MainDirection
     {
         get
@@ -101,6 +118,17 @@ public class Road : MonoBehaviour
         }
     }
 
+    public SeatPlace RandomSeat
+    {
+        get
+        {
+            if(seatPlaces.Count == 0) return null;
+
+            SeatPlace seat = seatPlaces[Random.Range(0, seatPlaces.Count)];
+            return seat.Free ? seat : null;
+        }
+    }
+
     public Vector3 RandomPointBehindSpawner
     {
         get
@@ -108,8 +136,8 @@ public class Road : MonoBehaviour
             ChelicksSpawner spawner = spawners[Random.Range(0, spawners.Count)];
             bool right = Random.Range(0, 100) > 50 ? true : false;
             
-            return spawner.RandomPoint + spawner.Direction * 1000f * 
-                (spawners.IndexOf(spawner) < 2 ? (right ? 1 : -1) : -1f);
+            return spawner.RandomPoint + spawner.Direction * 
+                (spawners.IndexOf(spawner) < 2 ? (right ? 250f : -15f) : -5f);
         }
     }
 
@@ -155,6 +183,7 @@ public class Road : MonoBehaviour
         Size = value;
 
         ResetRoad();
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
     }
 
     async void ChangeAppearance()
@@ -182,11 +211,14 @@ public class Road : MonoBehaviour
             {
                 if(Tiers[i].transform.localScale.x < 1f)
                 {
-                    /* Tiers[i].gameObject.SetActive(true); */
+                    Tiers[i].gameObject.SetActive(true);
                     Tiers[i].Play("ShowConstruction");
                 }
+                surfaces[i].enabled = true;
 
                 spawners = Tiers[i].transform.GetComponentsInChildren<ChelicksSpawner>().ToList();
+                seatPlaces = Tiers[i].transform.GetComponentsInChildren<SeatPlace>().ToList();
+                stalls = Tiers[i].transform.GetComponentsInChildren<AdditionalStall>().ToList();
                 button = Tiers[i].transform.GetComponentInChildren<RoadUpgradeButtonUI>();
             }
             else 
@@ -197,6 +229,7 @@ public class Road : MonoBehaviour
                     /* Tiers[i].transform.localScale = Vector3.zero;
                     Tiers[i].gameObject.SetActive(false); */
                 }
+                surfaces[i].enabled = false;
             }
         }
 
@@ -223,6 +256,12 @@ public class Road : MonoBehaviour
 
     public void ResetRoad()
     {
+        if(Size != setupSize && setupSize != 0) 
+        {
+            Size = setupSize;
+            /* ConstructionSaving.SaveConstructions(); */
+        }
+
         ChangeAppearance();
 
         /* transform.position = defaultPos - new Vector3(

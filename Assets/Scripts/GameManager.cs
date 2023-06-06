@@ -10,12 +10,14 @@ public class GameManager : MonoBehaviour
     public void SetActive(bool value) => _GameActive = value;
     public bool isActive => _GameActive;
 
+    [SerializeField] private float TimeScale = 3f;
+
     void Awake() => Instance = this;
 
     void Start()
     {
         Application.targetFrameRate = 60;
-        /* Time.timeScale = 5f; */
+        Time.timeScale = TimeScale;
     }
 
     public void SetFollowTarget(Transform tf)

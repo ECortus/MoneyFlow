@@ -13,6 +13,7 @@ public class Construction : ConstructionData
 
     [Header("UI par-s:")]
     [SerializeField] private ConstructionUpgradeButtonUI button;
+    public TargetPointer pointer;
     
     public void SetData()
     {
@@ -73,12 +74,14 @@ public class Construction : ConstructionData
         AddProgress();
         Reset();
 
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
+
         /* ConstructionSaving.SaveConstructions(); */
     }
 
     public void Reset()
     {
-        if(Progress < setupProgress) 
+        if(Progress != setupProgress && setupProgress != 0) 
         {
             Progress = setupProgress;
             /* ConstructionSaving.SaveConstructions(); */

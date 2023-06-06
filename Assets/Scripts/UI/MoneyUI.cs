@@ -47,7 +47,9 @@ public class MoneyUI : MonoBehaviour
 
     public void UpdateMoney()
     {
-        if(currentMoneyCount == money) 
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
+
+        if(currentMoneyCount != money) 
         {
             ResetMoney(); 
             return;

@@ -12,7 +12,7 @@ public class ConstructionVisiters : MonoBehaviour
     {
         get
         {
-            return exit.position + new Vector3(0f, 0f, 1f) * 4f;
+            return exit.position + new Vector3(0f, 0f, 1f) * 2f;
         }
     }
 
@@ -21,16 +21,21 @@ public class ConstructionVisiters : MonoBehaviour
 
     public List<Visiter> Visiters = new List<Visiter>();
 
-    /* int roadLevel => Road.Instance.Size;
+    int roadLevel => Road.Instance.Size;
     float maxDelay = 2f;
     float time = 2f;
-    int previousRoadLevel = Road.Instance.Size; */
+    int previousRoadLevel;
+
+    void Start()
+    {
+        previousRoadLevel = roadLevel;
+    }
 
     void Update()
     {
         if(Visiters.Count == 0 || !GameManager.Instance.isActive) return;
 
-        /* if(roadLevel != previousRoadLevel)
+        if(roadLevel != previousRoadLevel)
         {
             time -= Time.deltaTime;
             if(time < 0)
@@ -39,7 +44,7 @@ public class ConstructionVisiters : MonoBehaviour
                 previousRoadLevel = roadLevel;
             }
             return;
-        } */
+        }
 
         for(int i = 0; i < Visiters.Count; i++)
         {
@@ -75,8 +80,14 @@ public class ConstructionVisiters : MonoBehaviour
         construction.AnimMoneyIncome();
 
         Visiters.Remove(visiter);
-        visiter.Data.bag.On();
         ChelickGenerator.Instance.Spawn(exit.position, -Vector3.forward, visiter.Data, target);
+        visiter.Data.bag.On();
+
+        int value = Random.Range(0, 100);
+        if(value < 50)
+        {
+            Road.Instance.CallToRandomStall(visiter.Data);
+        }
     }
 
     void OnTriggerEnter(Collider col)

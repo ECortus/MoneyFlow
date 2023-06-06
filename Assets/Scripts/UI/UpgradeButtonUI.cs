@@ -9,17 +9,18 @@ public class UpgradeButtonUI : MonoBehaviour
     protected virtual int Progress { get; }
     protected virtual int MaxProgress { get; }
     protected virtual float CostOfProgress { get; }
+    protected virtual TargetPointer Pointer { get; }
 
     [Space]
     [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI buttonText;
+    public TextMeshProUGUI buttonText;
 
     [Space]
     [SerializeField] private Image image;
     [SerializeField] private Sprite availableSpr, unavailableSpr;
 
     [Space]
-    [SerializeField] private TextMeshProUGUI progressText;
+    public TextMeshProUGUI progressText;
     
     void OnEnable()
     {
@@ -27,36 +28,53 @@ public class UpgradeButtonUI : MonoBehaviour
         /* transform.parent.eulerAngles = Camera.main.transform.eulerAngles; */
     }
 
-    void Update()
+    protected virtual bool AdditionalCondition{ get; }
+
+    /* void Update()
     {
+        Refresh();
+    } */
+
+    public virtual void OnButtonClick() {}
+
+    public void Refresh()
+    {
+        UpdateText();
+
+        if(Pointer != null) 
+        {
+            if(Progress > 0 || CostOfProgress > Statistics.Money || !AdditionalCondition)
+            {
+                Pointer.enabled = false;
+            }
+            else if(Progress <= 0 && CostOfProgress <= Statistics.Money && AdditionalCondition)
+            {
+                if(ProgressInListCondition) Pointer.enabled = true;
+                else Pointer.enabled = false;
+            }
+        }
+
         if(Progress == MaxProgress) 
         {
             Off();
             return;
         }
 
-        if(CostOfProgress > Statistics.Money)
-        {
-            image.sprite = unavailableSpr;
-            button.interactable = false;
-        }
-        else
+        if(CostOfProgress <= Statistics.Money && AdditionalCondition)
         {
             image.sprite = availableSpr;
             button.interactable = true;
         }
-
-        UpdateText();
+        else
+        {
+            image.sprite = unavailableSpr;
+            button.interactable = false;
+        }
     }
 
-    public void UpdateText()
-    {
-        /* Debug.Log(gameObject.name + ": " + CostOfProgress); */
-        string txt = MoneyAmountConvertator.IntoText(CostOfProgress);
-        buttonText.text = txt + "$";
+    protected virtual bool ProgressInListCondition { get { return true; } }
 
-        if(progressText != null) progressText.text = $"{Progress}";
-    }
+    public virtual void UpdateText() {}
 
     public void Off()
     {
@@ -65,6 +83,8 @@ public class UpgradeButtonUI : MonoBehaviour
         image.sprite = unavailableSpr;
         button.interactable = false;
         buttonText.text = "MAX";
+
+        if(Pointer != null) Pointer.enabled = false;
 
         if(progressText != null) progressText.text = $"{Progress}";
     }
