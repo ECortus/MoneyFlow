@@ -11,7 +11,7 @@ public class SpeedUpSphere : MonoBehaviour
     {
         get
         {
-            return maxUpScale * (time / maxTime);
+            return maxUpScale /* * (time / maxTime) */;
         }
     }
 

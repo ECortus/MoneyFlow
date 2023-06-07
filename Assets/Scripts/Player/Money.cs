@@ -11,6 +11,7 @@ public static class Money
     {
         money += count;
 
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
         MoneyUI.Instance.UpdateMoney();
     }
     
@@ -19,6 +20,7 @@ public static class Money
         money -= count;
         if(money < 0) money = 0;
 
+        LevelManager.Instance.ActualLevel.RefreshAllButtons();
         MoneyUI.Instance.UpdateMoney();
     }
 }

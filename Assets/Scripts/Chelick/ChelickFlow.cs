@@ -41,7 +41,7 @@ public class ChelickFlow : MonoBehaviour
         get
         {
             int def = LevelManager.Instance.ActualLevel.defaultChelickCount;
-            int plus = ChelickFlow.Instance.RequiredPlusChelicks * (Road.Instance.Size + 1);
+            int plus = ChelickFlow.Instance.RequiredPlusChelicks;
 
             return def + plus;
         }

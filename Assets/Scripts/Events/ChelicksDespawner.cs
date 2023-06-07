@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChelicksDespawner : MonoBehaviour
 {
-    void OnTriggerEnter(Collider col)
+    void OnTriggerStay(Collider col)
     {
         if(!gameObject.activeInHierarchy) return;
 
@@ -13,6 +13,9 @@ public class ChelicksDespawner : MonoBehaviour
         if(col.tag == "Chelick")
         {
             chel = col.GetComponent<Chelick>();
+
+            if(!chel.gameObject.activeSelf) return;
+
             chel.Off();
             ObjectPool.Instance.Add(ObjectType.Chelick, col.gameObject);
         }

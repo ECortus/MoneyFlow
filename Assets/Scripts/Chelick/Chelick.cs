@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Cysharp.Threading.Tasks;
 
 public class Chelick : MonoBehaviour
 {
@@ -43,19 +44,23 @@ public class Chelick : MonoBehaviour
     public Vector3 target;
     private float targetX => target.x;
     private float targetZ = -9999f;
-    public void SetTarget(Vector3 trg, bool pl = false)
+    public async void SetTarget(Vector3 trg, bool pl = false)
     {
         target = trg;
         targetZ = Road.Instance.GetRandomPointOnZ(trg).z;
 
         called = true;
         planned = pl;
+
+        await UniTask.WaitUntil(() => gameObject.activeSelf);
+        if(!goSeat) SetDestination(target);
     }
     public void ResetTarget()
     {
         called = false;
         planned = false;
         target = new Vector3();
+        
         /* direction = MainDirection; */
     }
 
@@ -88,17 +93,20 @@ public class Chelick : MonoBehaviour
             SpawnOnMain = true;
         } */
 
+        path = new NavMeshPath();
         gameObject.SetActive(true);
         ChelickGenerator.Instance.AddChelick(this);
 
         int value = Random.Range(0, 100);
         if(value > 50)
         {
-            StartCoroutine(GoToSeat());
+            if(goSeatCoroutine == null) goSeatCoroutine = StartCoroutine(GoToSeat());
             return;
         }
 
         animations.Play(WalkingAnimationName);
+
+        /* SetDestination(target); */
     }
 
     public void Off()
@@ -107,23 +115,42 @@ public class Chelick : MonoBehaviour
         gameObject.SetActive(false);
         ChelickGenerator.Instance.RemoveChelick(this);
 
+        StopGoSeat();
+
         bag.Off();
         Props();
 
         animations.Stop();
     }
 
+    public void StopGoSeat()
+    {
+        if(goSeatCoroutine != null) StopCoroutine(goSeatCoroutine);
+        goSeatCoroutine = null;
+
+        if(place != null) place.Free = true;
+        place = null;
+
+        ResetRotateTarget();
+        Agent.enabled = true;
+        goSeat = false;
+    }
+
     bool goSeat = false;
+    Coroutine goSeatCoroutine = null;
+    SeatPlace place;
+
     IEnumerator GoToSeat()
     { 
         goSeat = true;
+        place = Road.Instance.RandomSeat;
 
-        SeatPlace place = Road.Instance.RandomSeat;
         if(place != null)
         {
             place.Free = false;
             Vector3 point = place.Point;
-            Agent.SetDestination(point);
+
+            SetDestination(point);
 
             yield return new WaitUntil(() => Vector3.Distance(point, transform.position) < 0.2f);
             /* animations.Stop(); */
@@ -131,20 +158,31 @@ public class Chelick : MonoBehaviour
             SetRotateTarget(point + place.transform.forward);
 
             Agent.enabled = false;
-            transform.position = transform.position - place.transform.forward * 0.85f;
+            transform.position = transform.position - place.transform.forward * 0.8f;
 
             yield return new WaitForSeconds(10f);
+            transform.position = transform.position + place.transform.forward * 0.8f;
 
             animations.Play(WalkingAnimationName);
 
-            ResetRotateTarget();
+            SetDestination(target);
 
-            place.Free = true;
+            StopGoSeat();
         }
+    }
 
-        yield return null;
-        Agent.enabled = true;
-        goSeat = false;
+    NavMeshPath path;
+
+    async void SetDestination(Vector3 trg)
+    {
+        path.ClearCorners();
+
+        await UniTask.WaitUntil(() => Agent.isOnNavMesh);
+
+        Agent.CalculatePath(trg, path);
+        Agent.SetPath(path);
+
+        /* Agent.SetDestination(trg); */
     }
 
     void Update()
@@ -162,8 +200,7 @@ public class Chelick : MonoBehaviour
 
         if(!GameManager.Instance.isActive)
         {
-            direction = Vector3.zero;
-            animations.Stop();
+            Off();
             
             return;
         }
@@ -184,17 +221,21 @@ public class Chelick : MonoBehaviour
         }
         else
         {
-            Agent.angularSpeed = 540f;
+            Agent.angularSpeed = 1080f;
         }
 
-        Move();
         UpdateAnimator();
+
+        /* if(!goSeat) */
+        {
+            Move();
+        }
     }
 
     private void UpdateAnimator()
     {
         /* animator.SetFloat(_Speed, rb.velocity.magnitude); */
-        if(Agent.velocity.magnitude < 0.1f && animations.isPlaying && !goSeat)
+        if(Agent.velocity.magnitude < 0.2f && animations.isPlaying && !goSeat)
         {
             animations.Stop();
             return;
@@ -243,7 +284,18 @@ public class Chelick : MonoBehaviour
         /* rb.velocity = direction * speed; */
         /* transform.position = Vector3.Lerp(transform.position, transform.position + direction * speed, speed / 4f * Time.deltaTime); */
         
-        if(!goSeat) Agent.SetDestination(target);
+        /* SetDestination(target); */
+
+        if(Agent.isActiveAndEnabled)
+        {
+            if(Agent.hasPath || !Agent.isOnNavMesh) return;
+
+            if(path.corners.Length > 0) Agent.SetPath(path);
+            else
+            {
+                Agent.CalculatePath(target, path);
+            }
+        }
     }
 
     private void Rotate()
@@ -261,6 +313,15 @@ public class Chelick : MonoBehaviour
         if(col.tag == "SpeedUp")
         {
             if(sphere == null) sphere = col.GetComponent<SpeedUpSphere>();
+            else
+            {
+                if(!sphere.gameObject.activeSelf)
+                {
+                    sphere = null;
+                    return;
+                }
+            }
+
             mod = sphere.Scale;
         }
     }

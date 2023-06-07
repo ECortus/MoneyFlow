@@ -137,7 +137,7 @@ public class Road : MonoBehaviour
             bool right = Random.Range(0, 100) > 50 ? true : false;
             
             return spawner.RandomPoint + spawner.Direction * 
-                (spawners.IndexOf(spawner) < 2 ? (right ? 250f : -15f) : -5f);
+                (spawners.IndexOf(spawner) < 2 ? (right ? 280f : -13f) : -10f);
         }
     }
 

@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
 
     [Header("Chelicks par-s: ")]
     public int defaultChelickCount = 1;
-    public int moneyOnStart = 50;
+    public float moneyOnStart = 50f;
 
     /* [Header("Construction par-s: ")] */
     /* [HideInInspector]  */public List<Construction> Constructions = new List<Construction>();
@@ -27,15 +27,36 @@ public class Level : MonoBehaviour
     public float leftBound;
     [SerializeField] private List<int> MaxRightBoundByRoad;
 
+    private int boundIndex
+    {
+        get
+        {
+            int t = 0;
+            List<Construction> constructions = LevelManager.Instance.ActualLevel.Constructions;
+
+            if(constructions[constructions.Count - 1].Progress > 0) return MaxRightBoundByRoad.Count - 1;
+            
+            for(int i = 0; i < constructions.Count; i++)
+            {
+                if(constructions[i].Progress < 1)
+                {
+                    break;
+                }
+                
+                if((i + 1) % 3 == 0) t++;
+            }
+            return t;
+        }
+    }
+
     public float rightBound
     {
         get
         {
-            return MaxRightBoundByRoad[/* Road.Instance.Size */MaxRightBoundByRoad.Count - 1];
+            return MaxRightBoundByRoad[boundIndex];
         }
     }
 
-    [Space]
     [SerializeField] private List<UpgradeButtonUI> AllUpgradeButtons = new List<UpgradeButtonUI>();
 
     public void StartLevel()

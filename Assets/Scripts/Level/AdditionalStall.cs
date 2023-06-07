@@ -12,8 +12,8 @@ public class AdditionalStall : MonoBehaviour
 
     [SerializeField] private int Max = 4;
     [SerializeField] private float Delay = 3f;
-    [SerializeField] private int defReward = 100;
-    private int Reward => defReward * (Road.Instance.Size + 1);
+    [SerializeField] private float defReward = 100f;
+    private float Reward => defReward * (Road.Instance.Size + 1);
     
     [Space]
     [SerializeField] private Transform CenterTransform;
@@ -53,6 +53,8 @@ public class AdditionalStall : MonoBehaviour
         if(chel != chelicks.Peek()) chel.SetTarget(target);
         else chel.SetTarget(CenterTransform.position);
 
+        chel.StopGoSeat();
+
         StartCoroutine(Visit(chel));
     }
 
@@ -60,7 +62,7 @@ public class AdditionalStall : MonoBehaviour
     {
         Chelick chel = chelicks.Dequeue();
 
-        chel.target = mainTargets.Dequeue();
+        chel.SetTarget(mainTargets.Dequeue());
         chel.ResetRotateTarget();
 
         if(chelicks.Count > 0)

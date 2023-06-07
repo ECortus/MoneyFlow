@@ -12,7 +12,7 @@ public class ConstructionVisiters : MonoBehaviour
     {
         get
         {
-            return exit.position + new Vector3(0f, 0f, 1f) * 2f;
+            return exit.position + new Vector3(0f, 0f, 1f) * 1f;
         }
     }
 

@@ -7,8 +7,8 @@ public class Tutorial : MonoBehaviour
 {
     public static Tutorial Instance { get; set; }
 
-    [SerializeField] private HandShowHide MOVE, UPGRADE;
-    public bool MOVE_isDone, UPGRADE_isDone;
+    [SerializeField] private HandShowHide MOVE, UPGRADE, ACCELERATION;
+    public bool MOVE_isDone, UPGRADE_isDone, ACCELERATION_isDone;
 
     public bool Complete
     {
@@ -39,6 +39,7 @@ public class Tutorial : MonoBehaviour
         {
             MOVE_isDone = true;
             UPGRADE_isDone = true;
+            /* ACCELERATION_isDone = true; */
             return;
         }
 
@@ -78,6 +79,10 @@ public class Tutorial : MonoBehaviour
                 CameraController.Instance.Active = false;
                 UPGRADE_isDone = done;
                 break;
+            case TutorialState.ACCELERATION:
+                /* if(!ACCELERATION_isDone)  */ACCELERATION.Open();
+                ACCELERATION_isDone = done;
+                break;
             default:
                 Debug.Log("looser");
                 break;
@@ -89,16 +94,18 @@ public class Tutorial : MonoBehaviour
         Complete = true;
         MOVE_isDone = true;
         UPGRADE_isDone = true;
+        /* ACCELERATION_isDone = true; */
         SetState(TutorialState.NONE);
 
         this.enabled = false;
-        gameObject.SetActive(false);
+        /* gameObject.SetActive(false); */
     }
 
     void OffAll()
     {
         MOVE.Close();
         UPGRADE.Close();
+        ACCELERATION.Close();
     }
 
     public async void Condition()
@@ -118,7 +125,7 @@ public class Tutorial : MonoBehaviour
 
 public enum TutorialState
 {
-    NONE, UPGRADE, MOVE
+    NONE, UPGRADE, MOVE, ACCELERATION
 }
 
 /* if(Tutorial.Instance != null)

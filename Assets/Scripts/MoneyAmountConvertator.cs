@@ -21,14 +21,23 @@ public static class MoneyAmountConvertator
 
     public static string IntoText(float value)
     {
-        float money = value;
+        float money = Mathf.Round(value);
         int power = GetThousandPower(money) * 3;
         string text = "";
 
-        if(((Mathf.Round(money)).ToString().Length) < 4) return (Mathf.Round(money)).ToString();
+        if(((money).ToString().Length) < 4) return (money).ToString();
 
-        string whole = $"{Mathf.Round(money / Mathf.Pow(10, power))}";
-        string left = $"{Mathf.Round(money % Mathf.Pow(10, power))}";
+        int wholeDigits = (int)(Mathf.Round(money / Mathf.Pow(10, power)));
+        float leftDigits = Mathf.Round(money % Mathf.Pow(10, power));
+
+        if(wholeDigits > 1)
+        {
+            char first = (leftDigits.ToString())[0];
+            if(Char.GetNumericValue(first) >= 5) wholeDigits -= 1;
+        }
+
+        string whole = $"{wholeDigits}";
+        string left = $"{leftDigits}";
 
         if(left.Length < 3)
         {
@@ -39,6 +48,7 @@ public static class MoneyAmountConvertator
         else text = whole;
 
         if(!Char.IsDigit(text[text.Length - 1])) text = text[0..(text.Length - 1)];
+        /* Debug.Log($"{Char.GetNumericValue(first) >= 5}" + ": " + first + ": " + money + ": " + text); */
 
         text += $"{GetPreName(power)}";
 

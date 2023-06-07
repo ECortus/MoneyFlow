@@ -25,7 +25,7 @@ public class ChelickBag : MonoBehaviour
             effect = BuyingEffect;
             if(effect == null) return;
 
-            GameObject go = ParticlePool.Instance.Insert(ParticleType.ChelickEmoji, effect, transform.position + Vector3.up * 2f);
+            GameObject go = ParticlePool.Instance.Insert(ParticleType.ChelickEmoji, effect, transform.position + Vector3.up * 3f);
             go.transform.parent = transform;
         }
     }

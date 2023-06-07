@@ -47,15 +47,13 @@ public class MoneyUI : MonoBehaviour
 
     public void UpdateMoney()
     {
-        LevelManager.Instance.ActualLevel.RefreshAllButtons();
-
-        if(currentMoneyCount != money) 
+        if(/* currentMoneyCount != money */true) 
         {
             ResetMoney(); 
             return;
         }
 
-        if(coroutine == null) coroutine = StartCoroutine(Coroutine());
+        /* if(coroutine == null) coroutine = StartCoroutine(Coroutine()); */
     }
 
     public void ResetMoney()

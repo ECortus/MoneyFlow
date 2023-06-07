@@ -9,11 +9,23 @@ public class ChelicksSpawner : MonoBehaviour
 
     [Header("Par-s: ")]
     [SerializeField] private float delay;
+    private float Delay
+    {
+        get
+        {
+            return delay / addionalMod;
+        }
+    }
+
+    public float addionalMod = 1f;
+    public void SetAdditionalMod(float scale) => addionalMod = scale;
+    public void ResetAdditionalMod() => addionalMod = 1f;
+
     [SerializeField] private int minCount, maxCount;
 
     private int roadMod => (Road.Instance.Size + 1);
 
-    WaitForSeconds wait => new WaitForSeconds(delay / roadMod * Road.Instance.SpawnCount);
+    WaitForSeconds wait => new WaitForSeconds(Delay/*  * roadMod / Road.Instance.SpawnCount */);
 
     public Vector3 Direction
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class SpeedUpOnTouchRadius : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SpeedUpOnTouchRadius : MonoBehaviour
     [Space]
     [SerializeField] private float radiusOnSpeedUp;
     [SerializeField] private float speedUpScale;
+    [SerializeField] private float timeAlive;
 
     [Space]
     [SerializeField] private LayerMask roadMask;
@@ -18,19 +20,29 @@ public class SpeedUpOnTouchRadius : MonoBehaviour
     Ray ray;
     RaycastHit hit;
 
+    float time = 0f;
+
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !PointerIsOverUI.Instance.CheckThis())
         {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            TryCreate();
+        }
 
-            if(Physics.Raycast(ray, out hit, Mathf.Infinity, roadMask))
+        if(Current != null)
+        {
+            if(Current.gameObject.activeSelf)
             {
-                CreateSpeedUpSphere(hit.point);
+                time += Time.deltaTime;
+                if(time >= timeAlive)
+                {
+                    DeleteSpeedUpSphere();
+                    Current = null;
+                }
             }
         }
 
-        if(Input.GetMouseButton(0) && Current != null)
+        /* if(Input.GetMouseButton(0) && Current != null)
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -47,6 +59,23 @@ public class SpeedUpOnTouchRadius : MonoBehaviour
         if(Input.GetMouseButtonUp(0) && Current != null)
         {
             DeleteSpeedUpSphere();
+        } */
+    }
+
+    async void TryCreate()
+    {
+        await UniTask.Delay(100);
+
+        if((Current == null || !Current.gameObject.activeSelf) 
+            && Mathf.Abs(CameraController.Instance.DiffMouseSplit) < 0.05f)
+        {
+            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, roadMask))
+            {
+                CreateSpeedUpSphere(hit.point);
+                time = 0f;
+            }
         }
     }
 
@@ -58,6 +87,12 @@ public class SpeedUpOnTouchRadius : MonoBehaviour
         }
 
         Current.On(point, radiusOnSpeedUp, speedUpScale);
+
+        if(!Tutorial.Instance.ACCELERATION_isDone)
+        {
+            Tutorial.Instance.ACCELERATION_isDone = true;
+            Tutorial.Instance.SetState(TutorialState.NONE);
+        }
     }
 
     public void MoveSphere(Vector3 point)

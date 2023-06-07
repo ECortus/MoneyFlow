@@ -16,7 +16,7 @@ public class CameraController : MonoBehaviour
 
     public bool Active = true;
 
-    private float diffMouseSplit
+    public float DiffMouseSplit
     {
         get
         {
@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     {
         get
         {
-            float X = lastX + diffMouseSplit;
+            float X = lastX + DiffMouseSplit;
             X = Mathf.Clamp(X, leftBound, rightBound);
 
             return new Vector3(
